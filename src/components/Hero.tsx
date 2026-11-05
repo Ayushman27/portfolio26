@@ -1,12 +1,51 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { profileData } from "@/data/profile";
 import { motion } from "framer-motion";
 import { ArrowDown, Send, GraduationCap, Terminal } from "lucide-react";
 
 export default function Hero() {
+  const roles = profileData.roles || [
+    "AI/ML Engineer",
+    "Generative AI",
+    "Agentic AI",
+    "Full-Stack Developer",
+  ];
+
+  const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
+  const [currentText, setCurrentText] = useState(roles[0]);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    const fullText = roles[currentRoleIndex];
+    let timer: NodeJS.Timeout;
+
+    if (isDeleting) {
+      if (currentText.length > 0) {
+        timer = setTimeout(() => {
+          setCurrentText(fullText.slice(0, currentText.length - 1));
+        }, 40);
+      } else {
+        setIsDeleting(false);
+        setCurrentRoleIndex((prev) => (prev + 1) % roles.length);
+      }
+    } else {
+      if (currentText.length < fullText.length) {
+        timer = setTimeout(() => {
+          setCurrentText(fullText.slice(0, currentText.length + 1));
+        }, 75);
+      } else {
+        timer = setTimeout(() => {
+          setIsDeleting(true);
+        }, 2000);
+      }
+    }
+
+    return () => clearTimeout(timer);
+  }, [currentText, isDeleting, currentRoleIndex, roles]);
+
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: "smooth" });
@@ -43,10 +82,13 @@ export default function Hero() {
             Engineering What&apos;s Next.
           </h1>
 
-          {/* High-Precision Monospace Subtitle */}
-          <div className="flex items-center gap-2 font-mono text-sm sm:text-base text-secondary font-medium">
+          {/* High-Precision Monospace Subtitle with Cybernetic Typewriter Effect */}
+          <div className="flex items-center gap-2 font-mono text-sm sm:text-base text-secondary font-medium min-h-[28px]">
             <Terminal className="w-4 h-4 shrink-0 text-secondary" />
-            <span>{profileData.roleTitle}</span>
+            <span className="tracking-wide flex items-center">
+              <span>{currentText}</span>
+              <span className="inline-block w-2 h-4 sm:h-4.5 bg-secondary ml-1 animate-pulse" />
+            </span>
           </div>
 
           {/* Editorial Description Paragraph */}
