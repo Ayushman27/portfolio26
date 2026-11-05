@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { profileData } from "@/data/profile";
 import { motion } from "framer-motion";
-import { Mail, MapPin, ExternalLink, Github, Linkedin, Send, CheckCircle2 } from "lucide-react";
+import { Mail, MapPin, ExternalLink, Github, Linkedin, Send, CheckCircle2, Download } from "lucide-react";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -110,6 +110,17 @@ export default function Contact() {
             >
               <Github className="w-4 h-4 text-primary" />
               <span>GitHub</span>
+            </a>
+
+            <a
+              href={profileData.resumeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              download="Ayushman_Patro_Resume.pdf"
+              className="px-5 py-3 rounded-lg bg-surface-container-high hover:bg-surface-bright text-on-surface font-display text-sm font-medium border border-white/10 hover:border-tertiary/50 transition-colors flex items-center gap-2"
+            >
+              <Download className="w-4 h-4 text-tertiary" />
+              <span>Download Resume</span>
             </a>
           </div>
         </motion.div>
