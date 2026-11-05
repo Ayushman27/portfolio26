@@ -26,7 +26,7 @@ export const experiences: ExperienceItem[] = [
     company: "Hutech Solutions",
     type: "Full-Time Internship",
     duration: "6 Months",
-    period: "April 2024 – September 2024",
+    period: "April 2026 – September 2026",
     accentColor: "primary",
     subProjects: [
       {
