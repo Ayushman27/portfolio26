@@ -64,3 +64,4 @@ export const softSkillsData: SoftSkill[] = [
     accentColor: "secondary",
   },
 ];
+

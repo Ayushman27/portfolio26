@@ -63,3 +63,4 @@ export const careerRoles: CareerRole[] = [
     accentColor: "tertiary-fixed",
   },
 ];
+

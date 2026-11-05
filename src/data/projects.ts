@@ -179,3 +179,4 @@ export const upcomingProjects: UpcomingProject[] = [
     technologies: "Model Context Protocol (MCP), Vector DBs, TypeScript",
   },
 ];
+

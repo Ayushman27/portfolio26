@@ -80,3 +80,4 @@ export const workflowPillars: WorkflowPillar[] = [
     accentColor: "tertiary",
   },
 ];
+

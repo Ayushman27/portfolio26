@@ -61,3 +61,4 @@ export const certificationsData: CertificationItem[] = [
     accentColor: "primary-fixed",
   },
 ];
+

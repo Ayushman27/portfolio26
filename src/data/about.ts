@@ -45,3 +45,4 @@ export const aboutPillars: AboutPillar[] = [
     accentColor: "primary-fixed",
   },
 ];
+

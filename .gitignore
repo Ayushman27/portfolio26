@@ -31,3 +31,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# raw design assets
+stitch_ayushman_patro_ai_portfolio*
+*.zip
+
