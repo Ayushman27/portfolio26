@@ -98,9 +98,13 @@ export default function TechStack() {
         {/* 10 Structured Category Panels (Bento Grid Layout) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {skillCategories.map((category, idx) => {
-            const visibleSkills = category.skills.filter(
-              (s) => filterTier === "all" || s.tier === filterTier
-            );
+            const visibleSkills = category.skills.filter((s) => {
+              if (filterTier === "all") return true;
+              if (s.name === "Python" && (filterTier === "core" || filterTier === "hands-on")) {
+                return true;
+              }
+              return s.tier === filterTier;
+            });
 
             return (
               <motion.div
@@ -167,3 +171,4 @@ export default function TechStack() {
     </section>
   );
 }
+

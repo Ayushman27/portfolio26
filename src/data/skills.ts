@@ -21,12 +21,11 @@ export const skillCategories: SkillCategory[] = [
     icon: "code",
     accentColor: "primary",
     skills: [
-      { name: "Python", tier: "core" },
+      { name: "Python", tier: "hands-on" },
       { name: "C++", tier: "core" },
       { name: "JavaScript", tier: "core" },
       { name: "TypeScript", tier: "core" },
       { name: "SQL", tier: "core" },
-      { name: "Java", tier: "hands-on" },
       { name: "C", tier: "working" },
     ],
   },
@@ -159,3 +158,4 @@ export const skillCategories: SkillCategory[] = [
     ],
   },
 ];
+
