@@ -2,6 +2,26 @@
 
 import React, { useEffect, useRef } from "react";
 
+interface Node {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  radius: number;
+  baseRadius: number;
+  color: string;
+  glowColor: string;
+  pulsePhase: number;
+}
+
+interface Packet {
+  fromNode: number;
+  toNode: number;
+  progress: number;
+  speed: number;
+  color: string;
+}
+
 export default function BackgroundShader() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -9,187 +29,316 @@ export default function BackgroundShader() {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
+    const ctx = canvas.getContext("2d", { alpha: true });
+    if (!ctx) return;
+
     let animationFrameId: number;
-    let gl: WebGLRenderingContext | null = null;
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
 
-    try {
-      gl = (canvas.getContext("webgl") ||
-        canvas.getContext("experimental-webgl")) as WebGLRenderingContext;
-    } catch {
-      return;
-    }
+    // Device Pixel Ratio scaling for ultra-crisp rendering on Retina screens
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-    if (!gl) return;
-
-    function syncSize() {
+    function resize() {
       if (!canvas) return;
-      const w = canvas.clientWidth || 1280;
-      const h = canvas.clientHeight || 720;
-      if (canvas.width !== w || canvas.height !== h) {
-        canvas.width = w;
-        canvas.height = h;
-      }
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      ctx?.scale(dpr, dpr);
     }
+    resize();
+    window.addEventListener("resize", resize);
 
-    let resizeObserver: ResizeObserver | null = null;
-    if (typeof ResizeObserver !== "undefined") {
-      resizeObserver = new ResizeObserver(syncSize);
-      resizeObserver.observe(canvas);
-    }
-    syncSize();
+    // Interactive mouse coordinates
+    const mouse = {
+      x: -1000,
+      y: -1000,
+      targetX: -1000,
+      targetY: -1000,
+      radius: 180,
+      active: false,
+    };
 
-    const vs = `attribute vec2 a_position;
-varying vec2 v_texCoord;
-void main() {
-  v_texCoord = a_position * 0.5 + 0.5;
-  gl_Position = vec4(a_position, 0.0, 1.0);
-}`;
+    const handleMouseMove = (e: MouseEvent) => {
+      mouse.targetX = e.clientX;
+      mouse.targetY = e.clientY;
+      mouse.active = true;
+    };
 
-    const fs = `precision highp float;
-uniform float u_time;
-uniform vec2 u_resolution;
-uniform vec2 u_mouse;
-
-vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
-vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
-vec3 permute(vec3 x) { return mod289(((x*34.0)+1.0)*x); }
-
-float snoise(vec2 v) {
-    const vec4 C = vec4(0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439);
-    vec2 i  = floor(v + dot(v, C.yy) );
-    vec2 x0 = v -   i + dot(i, C.xx);
-    vec2 i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
-    vec4 x12 = x0.xyxy + C.xxzz;
-    x12.xy -= i1;
-    i = mod289(i);
-    vec3 p = permute( permute( i.y + vec3(0.0, i1.y, 1.0 )) + i.x + vec3(0.0, i1.x, 1.0 ));
-    vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
-    m = m*m ;
-    m = m*m ;
-    vec3 x = 2.0 * fract(p * C.www) - 1.0;
-    vec3 h = abs(x) - 0.5;
-    vec3 ox = floor(x + 0.5);
-    vec3 a0 = x - ox;
-    m *= 1.79284291400159 - 0.85373472095314 * ( a0*a0 + h*h );
-    vec3 g;
-    g.x  = a0.x  * x0.x  + h.x  * x0.y;
-    g.yz = a0.yz * x12.xz + h.yz * x12.yw;
-    return 130.0 * dot(m, g);
-}
-
-void main() {
-    vec2 st = gl_FragCoord.xy / u_resolution.xy;
-    vec2 uv = (gl_FragCoord.xy - 0.5 * u_resolution.xy) / min(u_resolution.x, u_resolution.y);
-    
-    float t = u_time * 0.18;
-    
-    float n1 = snoise(uv * 1.8 + vec2(t * 0.4, -t * 0.3));
-    float n2 = snoise(uv * 3.2 - vec2(t * 0.2, t * 0.5) + n1 * 0.5);
-    
-    vec2 gridUV = fract(st * vec2(28.0, 16.0)) - 0.5;
-    float gridDist = length(gridUV);
-    float gridPoints = smoothstep(0.06, 0.01, gridDist) * 0.15;
-    
-    float coreDist = length(uv - vec2(0.25, 0.0));
-    float aura = exp(-coreDist * 2.8) * 0.65;
-    float filament = smoothstep(0.45, 0.48, abs(n2)) * smoothstep(0.55, 0.50, abs(n2));
-    
-    vec3 cBg = vec3(0.031, 0.039, 0.059);      // #080A0F
-    vec3 cViolet = vec3(0.545, 0.361, 0.965);  // #8B5CF6
-    vec3 cCyan = vec3(0.133, 0.827, 0.933);    // #22D3EE
-    vec3 cIndigo = vec3(0.24, 0.12, 0.58);
-    
-    vec3 col = cBg;
-    
-    col += cIndigo * max(0.0, n1) * 0.45;
-    col += cViolet * aura * 0.7;
-    col += cCyan * max(0.0, n2 * 0.35) * exp(-length(uv) * 1.5);
-    col += cCyan * filament * 0.4;
-    col += vec3(gridPoints) * cCyan * 0.4;
-    
-    float vig = 1.0 - smoothstep(0.5, 1.4, length(st - 0.5));
-    col *= vig;
-    
-    gl_FragColor = vec4(col, 1.0);
-}`;
-
-    function createShader(type: number, src: string) {
-      if (!gl) return null;
-      const s = gl.createShader(type);
-      if (!s) return null;
-      gl.shaderSource(s, src);
-      gl.compileShader(s);
-      return s;
-    }
-
-    const vert = createShader(gl.VERTEX_SHADER, vs);
-    const frag = createShader(gl.FRAGMENT_SHADER, fs);
-    if (!vert || !frag) return;
-
-    const prog = gl.createProgram();
-    if (!prog) return;
-
-    gl.attachShader(prog, vert);
-    gl.attachShader(prog, frag);
-    gl.linkProgram(prog);
-    gl.useProgram(prog);
-
-    const buf = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-    gl.bufferData(
-      gl.ARRAY_BUFFER,
-      new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]),
-      gl.STATIC_DRAW
-    );
-
-    const pos = gl.getAttribLocation(prog, "a_position");
-    gl.enableVertexAttribArray(pos);
-    gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
-
-    const uTime = gl.getUniformLocation(prog, "u_time");
-    const uRes = gl.getUniformLocation(prog, "u_resolution");
-    const uMouse = gl.getUniformLocation(prog, "u_mouse");
-
-    const mouse = { x: canvas.width / 2, y: canvas.height / 2 };
-    const handleMouseMove = (event: MouseEvent) => {
-      if (!canvas) return;
-      const rect = canvas.getBoundingClientRect();
-      if (rect.width && rect.height) {
-        const nx = (event.clientX - rect.left) / rect.width;
-        const ny = 1.0 - (event.clientY - rect.top) / rect.height;
-        mouse.x = nx * canvas.width;
-        mouse.y = ny * canvas.height;
-      }
+    const handleMouseLeave = () => {
+      mouse.active = false;
+      mouse.targetX = -1000;
+      mouse.targetY = -1000;
     };
 
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    window.addEventListener("mouseleave", handleMouseLeave);
 
-    let isDisposed = false;
-    function render(t: number) {
-      if (isDisposed || !gl || !canvas) return;
-      gl.viewport(0, 0, canvas.width, canvas.height);
-      if (uTime) gl.uniform1f(uTime, t * 0.001);
-      if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
-      if (uMouse) gl.uniform2f(uMouse, mouse.x, mouse.y);
-      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    // Color Palette matching Obsidian Cybernetics
+    const VIOLET = "#8B5CF6";
+    const CYAN = "#22D3EE";
+    const EMERALD = "#10B981";
+
+    // Initialize Neural Nodes
+    const nodeCount = Math.floor(Math.min(width, 1440) / 18);
+    const nodes: Node[] = [];
+
+    for (let i = 0; i < nodeCount; i++) {
+      const isViolet = Math.random() > 0.45;
+      const isEmerald = !isViolet && Math.random() > 0.7;
+      const color = isViolet ? VIOLET : isEmerald ? EMERALD : CYAN;
+      const glowColor = isViolet
+        ? "rgba(139, 92, 246, 0.4)"
+        : isEmerald
+        ? "rgba(16, 185, 129, 0.4)"
+        : "rgba(34, 211, 238, 0.4)";
+
+      const radius = Math.random() * 1.6 + 1.2;
+
+      nodes.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.45,
+        vy: (Math.random() - 0.5) * 0.45,
+        radius,
+        baseRadius: radius,
+        color,
+        glowColor,
+        pulsePhase: Math.random() * Math.PI * 2,
+      });
+    }
+
+    // Active token stream packets traveling between nodes
+    const packets: Packet[] = [];
+    const maxPackets = 12;
+
+    const connectionDistance = 140;
+
+    let lastTime = performance.now();
+
+    function render(currentTime: number) {
+      const dt = Math.min((currentTime - lastTime) / 1000, 0.1);
+      lastTime = currentTime;
+
+      if (!ctx) return;
+
+      // Smooth mouse interpolation
+      mouse.x += (mouse.targetX - mouse.x) * 0.15;
+      mouse.y += (mouse.targetY - mouse.y) * 0.15;
+
+      ctx.clearRect(0, 0, width, height);
+
+      // 1. Digital Dot Grid (Cybernetic Mesh Floor)
+      const gridSize = 48;
+      const startX = 0;
+      const startY = 0;
+
+      ctx.save();
+      for (let x = startX; x < width; x += gridSize) {
+        for (let y = startY; y < height; y += gridSize) {
+          const dx = mouse.x - x;
+          const dy = mouse.y - y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          let dotAlpha = 0.08;
+          let dotRadius = 1;
+
+          // Sonar / radar lightup around mouse cursor
+          if (mouse.active && dist < mouse.radius) {
+            const factor = 1 - dist / mouse.radius;
+            dotAlpha = 0.08 + factor * 0.35;
+            dotRadius = 1 + factor * 1.2;
+            ctx.fillStyle = `rgba(34, 211, 238, ${dotAlpha})`;
+          } else {
+            ctx.fillStyle = `rgba(255, 255, 255, ${dotAlpha})`;
+          }
+
+          ctx.beginPath();
+          ctx.arc(x, y, dotRadius, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+      ctx.restore();
+
+      // 2. Cursor Ambient Field
+      if (mouse.active && mouse.x > 0 && mouse.y > 0) {
+        const cursorGlow = ctx.createRadialGradient(
+          mouse.x,
+          mouse.y,
+          0,
+          mouse.x,
+          mouse.y,
+          mouse.radius
+        );
+        cursorGlow.addColorStop(0, "rgba(139, 92, 246, 0.15)");
+        cursorGlow.addColorStop(0.5, "rgba(34, 211, 238, 0.06)");
+        cursorGlow.addColorStop(1, "rgba(8, 10, 15, 0)");
+
+        ctx.fillStyle = cursorGlow;
+        ctx.beginPath();
+        ctx.arc(mouse.x, mouse.y, mouse.radius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // 3. Update & Draw Neural Nodes
+      const connectedPairs: [number, number][] = [];
+
+      for (let i = 0; i < nodes.length; i++) {
+        const node = nodes[i];
+
+        // Update position
+        node.x += node.vx;
+        node.y += node.vy;
+
+        // Wrap around borders smoothly
+        if (node.x < -20) node.x = width + 20;
+        if (node.x > width + 20) node.x = -20;
+        if (node.y < -20) node.y = height + 20;
+        if (node.y > height + 20) node.y = -20;
+
+        // Interactive mouse deflection / pull
+        if (mouse.active) {
+          const dx = node.x - mouse.x;
+          const dy = node.y - mouse.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < mouse.radius && dist > 0) {
+            const force = (1 - dist / mouse.radius) * 0.6;
+            node.x += (dx / dist) * force;
+            node.y += (dy / dist) * force;
+          }
+        }
+
+        // Pulse phase
+        node.pulsePhase += dt * 2.5;
+        const pulse = Math.sin(node.pulsePhase) * 0.4 + 1;
+        node.radius = node.baseRadius * pulse;
+
+        // Find neighbors for connection
+        for (let j = i + 1; j < nodes.length; j++) {
+          const other = nodes[j];
+          const dx = node.x - other.x;
+          const dy = node.y - other.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < connectionDistance) {
+            connectedPairs.push([i, j]);
+
+            const alpha = (1 - dist / connectionDistance) * 0.22;
+
+            ctx.beginPath();
+            ctx.moveTo(node.x, node.y);
+            ctx.lineTo(other.x, other.y);
+
+            // Subtle gradient edge
+            ctx.strokeStyle = `rgba(139, 92, 246, ${alpha})`;
+            ctx.lineWidth = 0.85;
+            ctx.stroke();
+          }
+        }
+
+        // Connect node to cursor if nearby
+        if (mouse.active) {
+          const dx = node.x - mouse.x;
+          const dy = node.y - mouse.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < mouse.radius) {
+            const alpha = (1 - dist / mouse.radius) * 0.45;
+            ctx.beginPath();
+            ctx.moveTo(node.x, node.y);
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.strokeStyle = `rgba(34, 211, 238, ${alpha})`;
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        }
+
+        // Draw Node Halo Glow
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, node.radius * 2.8, 0, Math.PI * 2);
+        ctx.fillStyle = node.glowColor;
+        ctx.fill();
+
+        // Draw Core Node
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+        ctx.fillStyle = node.color;
+        ctx.fill();
+      }
+
+      // 4. Spawn & Animate Token Stream Packets
+      if (connectedPairs.length > 0 && packets.length < maxPackets && Math.random() < 0.08) {
+        const randomPair = connectedPairs[Math.floor(Math.random() * connectedPairs.length)];
+        packets.push({
+          fromNode: randomPair[0],
+          toNode: randomPair[1],
+          progress: 0,
+          speed: Math.random() * 0.015 + 0.008,
+          color: Math.random() > 0.5 ? CYAN : VIOLET,
+        });
+      }
+
+      for (let p = packets.length - 1; p >= 0; p--) {
+        const pkt = packets[p];
+        pkt.progress += pkt.speed;
+
+        const from = nodes[pkt.fromNode];
+        const to = nodes[pkt.toNode];
+
+        if (!from || !to || pkt.progress >= 1) {
+          packets.splice(p, 1);
+          continue;
+        }
+
+        const px = from.x + (to.x - from.x) * pkt.progress;
+        const py = from.y + (to.y - from.y) * pkt.progress;
+
+        // Packet glow dot
+        ctx.beginPath();
+        ctx.arc(px, py, 2.2, 0, Math.PI * 2);
+        ctx.fillStyle = pkt.color;
+        ctx.shadowColor = pkt.color;
+        ctx.shadowBlur = 8;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+
       animationFrameId = requestAnimationFrame(render);
     }
 
     animationFrameId = requestAnimationFrame(render);
 
+    // Pause animation when tab is inactive to preserve 100% CPU/GPU efficiency
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        cancelAnimationFrame(animationFrameId);
+      } else {
+        lastTime = performance.now();
+        animationFrameId = requestAnimationFrame(render);
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
     return () => {
-      isDisposed = true;
       cancelAnimationFrame(animationFrameId);
+      window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", handleMouseMove);
-      if (resizeObserver) resizeObserver.disconnect();
+      window.removeEventListener("mouseleave", handleMouseLeave);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, []);
 
   return (
-    <div className="absolute inset-0 w-full h-[1000px] pointer-events-none opacity-40 mix-blend-screen overflow-hidden">
+    <div className="fixed inset-0 w-full h-full pointer-events-none z-0 overflow-hidden">
+      {/* Deep Obsidian Canvas Background */}
       <canvas
         ref={canvasRef}
-        className="block w-full h-full"
+        className="block w-full h-full opacity-70"
         style={{ width: "100%", height: "100%" }}
       />
     </div>

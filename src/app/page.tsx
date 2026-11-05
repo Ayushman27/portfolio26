@@ -17,21 +17,20 @@ import BackgroundShader from "@/components/BackgroundShader";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-surface text-on-surface flex flex-col relative selection:bg-primary/20 selection:text-white">
+    <div className="min-h-screen bg-[#080A0F] text-on-surface flex flex-col relative selection:bg-primary/20 selection:text-white">
+      {/* Persistent Full-Screen Interactive Neural & Grid Background */}
+      <BackgroundShader />
+
+      {/* Atmospheric Volumetric Nebula Lighting */}
+      <div className="fixed top-[-10%] left-[20%] w-[500px] h-[500px] bg-primary/15 rounded-full blur-[160px] pointer-events-none z-0" />
+      <div className="fixed top-[25%] right-[10%] w-[450px] h-[450px] bg-secondary/12 rounded-full blur-[150px] pointer-events-none z-0" />
+      <div className="fixed bottom-[10%] left-[15%] w-[480px] h-[480px] bg-tertiary/10 rounded-full blur-[160px] pointer-events-none z-0" />
+
       {/* Sticky Navigation Bar */}
       <Navbar />
 
-      <main className="w-full pt-20 bg-surface min-h-[calc(100vh-80px)] relative">
+      <main className="w-full pt-20 min-h-[calc(100vh-80px)] relative z-10">
         <div className="flex flex-col w-full relative">
-          {/* Interactive WebGL Shader Simulation Layer */}
-          <BackgroundShader />
-
-          {/* Ambient Radiant Flares */}
-          <div className="absolute top-20 left-1/4 w-96 h-96 bg-primary-container/20 rounded-full blur-[140px] pointer-events-none -z-10" />
-          <div className="absolute top-60 right-1/4 w-80 h-80 bg-secondary-container/15 rounded-full blur-[120px] pointer-events-none -z-10" />
-          <div className="absolute top-[1600px] left-1/3 w-96 h-96 bg-tertiary/10 rounded-full blur-[150px] pointer-events-none -z-10" />
-          <div className="absolute top-[2800px] right-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[160px] pointer-events-none -z-10" />
-
           {/* SECTION 1: HERO */}
           <Hero />
 
