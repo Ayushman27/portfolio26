@@ -140,15 +140,6 @@ export default function Navbar() {
             <span>Download Resume</span>
           </a>
 
-          {/* Avatar status badge */}
-          <div
-            className="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0 shadow-[0_0_10px_rgba(208,188,255,0.3)]"
-            title="Ayushman Patro"
-          >
-            <span className="material-symbols-outlined text-on-primary text-[18px]">
-              person
-            </span>
-          </div>
 
           {/* Mobile menu toggle button */}
           <button
@@ -230,3 +221,4 @@ export default function Navbar() {
     </header>
   );
 }
+
