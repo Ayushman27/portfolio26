@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 export default function Education() {
   return (
     <section
-      className="w-full max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-12 py-16 border-t border-white/10"
+      className="w-full max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-12 py-16 border-t border-white/10 scroll-mt-20"
       id="education"
     >
       <div className="flex flex-col gap-8">
@@ -133,3 +133,4 @@ export default function Education() {
     </section>
   );
 }
+

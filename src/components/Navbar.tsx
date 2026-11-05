@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { profileData } from "@/data/profile";
-import { Menu, X, Github, Linkedin, Download, Terminal } from "lucide-react";
+import { Menu, X, Github, Linkedin, Download } from "lucide-react";
 
 const NAV_ITEMS = [
   { name: "About", href: "#about" },
@@ -20,19 +20,31 @@ export default function Navbar() {
   const [activeSection, setActiveSection] = useState("about");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const isClickScrolling = useRef(false);
+  const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
 
+      if (isClickScrolling.current) return;
+
       const sections = NAV_ITEMS.map((item) => item.href.substring(1));
-      const scrollPosition = window.scrollY + 120;
+      
+      // Bottom of page check -> activate contact
+      if (
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 60
+      ) {
+        setActiveSection("contact");
+        return;
+      }
 
       for (let i = sections.length - 1; i >= 0; i--) {
         const sectionEl = document.getElementById(sections[i]);
         if (sectionEl) {
-          const top = sectionEl.offsetTop;
-          if (scrollPosition >= top) {
+          const rect = sectionEl.getBoundingClientRect();
+          if (rect.top <= 200) {
             setActiveSection(sections[i]);
             break;
           }
@@ -42,7 +54,10 @@ export default function Navbar() {
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
+    };
   }, []);
 
   const handleNavClick = (
@@ -50,10 +65,24 @@ export default function Navbar() {
     href: string
   ) => {
     e.preventDefault();
+    const sectionId = href.substring(1);
+    
+    // Instantly highlight the clicked nav item box
+    setActiveSection(sectionId);
     setMobileMenuOpen(false);
-    const target = document.querySelector(href);
+
+    isClickScrolling.current = true;
+    if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
+    scrollTimeout.current = setTimeout(() => {
+      isClickScrolling.current = false;
+    }, 850);
+
+    const target = document.getElementById(sectionId);
     if (target) {
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      const navOffset = 76;
+      const targetY =
+        target.getBoundingClientRect().top + window.scrollY - navOffset;
+      window.scrollTo({ top: Math.max(0, targetY), behavior: "smooth" });
     }
   };
 

@@ -3,9 +3,9 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import AgentSandbox from "@/components/AgentSandbox";
 import About from "@/components/About";
-import TechStack from "@/components/TechStack";
 import Experience from "@/components/Experience";
 import Projects from "@/components/Projects";
+import TechStack from "@/components/TechStack";
 import UpcomingProjects from "@/components/UpcomingProjects";
 import AIWorkflow from "@/components/AIWorkflow";
 import Education from "@/components/Education";
@@ -31,40 +31,40 @@ export default function Home() {
 
       <main className="w-full pt-20 min-h-[calc(100vh-80px)] relative z-10">
         <div className="flex flex-col w-full relative">
-          {/* SECTION 1: HERO */}
+          {/* HERO */}
           <Hero />
 
           {/* INTERACTIVE AGENT SANDBOX (Runtime Environment) */}
           <AgentSandbox />
 
-          {/* SECTION 2: OVERVIEW / ABOUT */}
+          {/* SECTION 1: OVERVIEW / ABOUT */}
           <About />
 
-          {/* SECTION 3: TECH STACK / CAPABILITIES */}
-          <TechStack />
-
-          {/* SECTION 4: EXPERIENCE / TRACK RECORD */}
+          {/* SECTION 2: EXPERIENCE / TRACK RECORD */}
           <Experience />
 
-          {/* SECTION 5: FEATURED PROJECTS / APPLIED ENGINEERING */}
+          {/* SECTION 3: FEATURED PROJECTS / APPLIED ENGINEERING */}
           <Projects />
 
-          {/* SECTION 6: UPCOMING PROJECTS / EXPERIMENTAL R&D */}
+          {/* SECTION 4: TECH STACK / CAPABILITIES */}
+          <TechStack />
+
+          {/* SECTION 5: UPCOMING PROJECTS / EXPERIMENTAL R&D */}
           <UpcomingProjects />
 
-          {/* SECTION 7: AI WORKFLOW / METHODOLOGY */}
+          {/* SECTION 6: AI WORKFLOW / METHODOLOGY */}
           <AIWorkflow />
 
-          {/* SECTION 8: EDUCATION & CERTIFICATIONS / FOUNDATION */}
+          {/* SECTION 7: EDUCATION & CERTIFICATIONS / FOUNDATION */}
           <Education />
 
-          {/* SECTION 9: NON-TECHNICAL SKILLS / THE ENGINEER BEYOND CODE */}
+          {/* SECTION 8: NON-TECHNICAL SKILLS / THE ENGINEER BEYOND CODE */}
           <SoftSkills />
 
-          {/* SECTION 10: CAREER FOCUS / SUITABLE ROLES */}
+          {/* SECTION 9: CAREER FOCUS / SUITABLE ROLES */}
           <CareerFocus />
 
-          {/* SECTION 11: CONTACT / LET'S CONNECT */}
+          {/* SECTION 10: CONTACT / LET'S CONNECT */}
           <Contact />
         </div>
       </main>

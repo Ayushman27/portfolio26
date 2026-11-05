@@ -9,7 +9,7 @@ export default function AIWorkflow() {
 
   return (
     <section
-      className="w-full max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-12 py-16 border-t border-white/10"
+      className="w-full max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-12 py-16 border-t border-white/10 scroll-mt-20"
       id="workflow"
     >
       <div className="flex flex-col gap-8">
@@ -131,3 +131,4 @@ export default function AIWorkflow() {
     </section>
   );
 }
+

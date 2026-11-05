@@ -34,7 +34,7 @@ export default function Contact() {
 
   return (
     <section
-      className="w-full max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-12 py-16 border-t border-white/10"
+      className="w-full max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-12 py-16 border-t border-white/10 scroll-mt-20"
       id="contact"
     >
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
@@ -199,3 +199,4 @@ export default function Contact() {
     </section>
   );
 }
+
