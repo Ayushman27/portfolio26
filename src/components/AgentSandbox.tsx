@@ -37,6 +37,101 @@ const SUGGESTED_QUESTIONS = [
   "How did he build the real-time AI Voice Agent?",
 ];
 
+function formatInline(text: string): React.ReactNode[] {
+  const parts: React.ReactNode[] = [];
+  const regex = /(\*\*[^*]+\*\*|`[^`]+`|\[[^\]]+\]\([^)]+\))/g;
+  let lastIndex = 0;
+  let match;
+
+  while ((match = regex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(text.slice(lastIndex, match.index));
+    }
+    const token = match[0];
+    if (token.startsWith("**") && token.endsWith("**")) {
+      parts.push(
+        <strong key={match.index} className="font-semibold text-white">
+          {token.slice(2, -2)}
+        </strong>
+      );
+    } else if (token.startsWith("`") && token.endsWith("`")) {
+      parts.push(
+        <code
+          key={match.index}
+          className="font-mono text-[11px] sm:text-xs bg-surface-container-high/90 text-secondary px-1.5 py-0.5 rounded border border-white/10"
+        >
+          {token.slice(1, -1)}
+        </code>
+      );
+    } else if (token.startsWith("[")) {
+      const linkMatch = token.match(/\[([^\]]+)\]\(([^)]+)\)/);
+      if (linkMatch) {
+        parts.push(
+          <a
+            key={match.index}
+            href={linkMatch[2]}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-secondary hover:text-primary underline underline-offset-2 transition-colors"
+          >
+            {linkMatch[1]}
+          </a>
+        );
+      }
+    }
+    lastIndex = match.index + token.length;
+  }
+  if (lastIndex < text.length) {
+    parts.push(text.slice(lastIndex));
+  }
+  return parts;
+}
+
+function MarkdownRenderer({ content }: { content: string }) {
+  const lines = content.split("\n");
+  return (
+    <div className="flex flex-col gap-1.5 font-sans text-xs sm:text-sm leading-relaxed text-on-surface">
+      {lines.map((line, idx) => {
+        if (!line.trim()) {
+          return <div key={idx} className="h-1" />;
+        }
+        if (line.startsWith("### ")) {
+          return (
+            <h4 key={idx} className="font-bold text-white text-sm sm:text-base font-display mt-2 mb-0.5">
+              {formatInline(line.slice(4))}
+            </h4>
+          );
+        }
+        if (line.startsWith("## ")) {
+          return (
+            <h3 key={idx} className="font-bold text-white text-base font-display mt-2 mb-1">
+              {formatInline(line.slice(3))}
+            </h3>
+          );
+        }
+        if (line.startsWith("- ") || line.startsWith("* ")) {
+          return (
+            <div key={idx} className="flex items-start gap-2 ml-1">
+              <span className="text-secondary mt-1.5 text-[7px] shrink-0">●</span>
+              <span className="flex-1 leading-relaxed">{formatInline(line.slice(2))}</span>
+            </div>
+          );
+        }
+        const numMatch = line.match(/^(\d+)\.\s+(.*)$/);
+        if (numMatch) {
+          return (
+            <div key={idx} className="flex items-start gap-2 ml-1">
+              <span className="font-mono text-secondary text-xs font-semibold shrink-0">{numMatch[1]}.</span>
+              <span className="flex-1 leading-relaxed">{formatInline(numMatch[2])}</span>
+            </div>
+          );
+        }
+        return <p key={idx} className="leading-relaxed">{formatInline(line)}</p>;
+      })}
+    </div>
+  );
+}
+
 export default function AgentSandbox() {
   const [messages, setMessages] = useState<Message[]>([INITIAL_MESSAGE]);
   const [inputVal, setInputVal] = useState("");
@@ -243,9 +338,13 @@ You can contact Ayushman directly at **ayushmanpatro2003@gmail.com** or inspect 
                       }`}
                     >
                       {/* Formatted Message Content */}
-                      <div className="whitespace-pre-wrap font-sans text-xs sm:text-sm leading-relaxed">
-                        {m.content}
-                      </div>
+                      {isAssistant ? (
+                        <MarkdownRenderer content={m.content} />
+                      ) : (
+                        <div className="whitespace-pre-wrap font-sans text-xs sm:text-sm leading-relaxed text-white">
+                          {m.content}
+                        </div>
+                      )}
 
                       {/* Grounded Source Citations if present */}
                       {isAssistant && m.sources && m.sources.length > 0 && (
@@ -319,7 +418,7 @@ You can contact Ayushman directly at **ayushmanpatro2003@gmail.com** or inspect 
             {/* Bottom Status Telemetry */}
             <div className="flex items-center justify-between text-[10px] font-mono text-outline pt-2 px-1">
               <span className="hidden sm:inline">
-                Grounding Engine: <span className="text-secondary">BM25 Document RAG</span> + <span className="text-primary">Gemini 1.5 Flash</span>
+                Grounding Engine: <span className="text-secondary">BM25 Document RAG</span> + <span className="text-primary">Gemini LLM</span>
               </span>
               <span className="text-tertiary flex items-center gap-1">
                 <CheckCircle2 className="w-3 h-3" />

@@ -58,61 +58,69 @@ RETRIEVED KNOWLEDGE BASE (GROUNDING TRUTH):
 ${contextText}`;
 
     // 2. Check for Gemini API Key in Environment
-    const geminiApiKey = process.env.GEMINI_API_KEY;
+    const rawApiKey = process.env.GEMINI_API_KEY || "";
+    const geminiApiKey = rawApiKey.trim().replace(/\.+$/, "");
 
     if (geminiApiKey) {
-      try {
-        const geminiEndpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiApiKey}`;
+      // Model cascade for optimal speed and reliability
+      const candidateModels = ["gemini-flash-lite-latest", "gemini-3.5-flash-lite"];
 
-        // Format recent conversation history for Gemini
-        const contents = [
-          ...history.slice(-4).map((h) => ({
-            role: h.role === "user" ? "user" : "model",
-            parts: [{ text: h.content }],
-          })),
-          {
-            role: "user",
-            parts: [{ text: `${systemInstruction}\n\nUSER QUESTION: ${userMessage}` }],
-          },
-        ];
+      // Format recent conversation history for Gemini
+      const contents = [
+        ...history.slice(-4).map((h) => ({
+          role: h.role === "user" ? "user" : "model",
+          parts: [{ text: h.content }],
+        })),
+        {
+          role: "user",
+          parts: [{ text: `${systemInstruction}\n\nUSER QUESTION: ${userMessage}` }],
+        },
+      ];
 
-        const geminiRes = await fetch(geminiEndpoint, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            contents,
-            generationConfig: {
-              temperature: 0.2,
-              maxOutputTokens: 800,
-            },
-          }),
-        });
+      for (const model of candidateModels) {
+        try {
+          const geminiEndpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiApiKey}`;
 
-        if (geminiRes.ok) {
-          const data = await geminiRes.json();
-          const candidateText =
-            data?.candidates?.[0]?.content?.parts?.[0]?.text;
+          const geminiRes = await fetch(geminiEndpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              contents,
+              generationConfig: {
+                temperature: 0.25,
+                maxOutputTokens: 800,
+              },
+            }),
+          });
 
-          if (candidateText) {
-            return NextResponse.json({
-              reply: candidateText,
-              sources,
-              poweredBy: "gemini-1.5-flash",
-            });
+          if (geminiRes.ok) {
+            const data = await geminiRes.json();
+            const candidateText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+            if (candidateText) {
+              return NextResponse.json({
+                reply: candidateText,
+                sources,
+                poweredBy: `Gemini (${model}) + Document RAG`,
+                apiKeyConfigured: true,
+              });
+            }
+          } else {
+            console.warn(`Model ${model} returned HTTP ${geminiRes.status}, trying fallback model...`);
           }
+        } catch (callError) {
+          console.warn(`Attempt with ${model} failed:`, callError);
         }
-      } catch (geminiError) {
-        console.error("Gemini API call failed, falling back to Document RAG engine:", geminiError);
       }
     }
 
-    // 3. Fallback Deterministic RAG Synthesizer (when GEMINI_API_KEY is not set)
+    // 3. Fallback Deterministic RAG Synthesizer (when GEMINI_API_KEY is not set or rate limited)
     const fallbackReply = synthesizeDocumentRAGResponse(userMessage, retrievedChunks);
 
     return NextResponse.json({
       reply: fallbackReply,
       sources,
-      poweredBy: geminiApiKey ? "gemini-fallback" : "document-rag",
+      poweredBy: geminiApiKey ? "Document RAG (Offline Guard)" : "Document RAG Engine",
       apiKeyConfigured: Boolean(geminiApiKey),
     });
   } catch (error) {
