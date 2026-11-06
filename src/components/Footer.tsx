@@ -70,15 +70,12 @@ export default function Footer() {
           >
             LinkedIn
           </a>
-          <a
-            href={profileData.resumeUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            download="Ayushman_Patro_Resume.pdf"
+          <button
+            onClick={() => window.dispatchEvent(new CustomEvent("open-resume-modal"))}
             className="text-on-surface-variant hover:text-tertiary transition-colors"
           >
             Resume PDF
-          </a>
+          </button>
           <button
             onClick={() => scrollTo("contact")}
             className="text-on-surface-variant hover:text-primary transition-colors"

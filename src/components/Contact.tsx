@@ -112,16 +112,13 @@ export default function Contact() {
               <span>GitHub</span>
             </a>
 
-            <a
-              href={profileData.resumeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              download="Ayushman_Patro_Resume.pdf"
-              className="px-5 py-3 rounded-lg bg-surface-container-high hover:bg-surface-bright text-on-surface font-display text-sm font-medium border border-white/10 hover:border-tertiary/50 transition-colors flex items-center gap-2"
+            <button
+              onClick={() => window.dispatchEvent(new CustomEvent("open-resume-modal"))}
+              className="px-5 py-3 rounded-lg bg-surface-container-high hover:bg-surface-bright text-on-surface font-display text-sm font-medium border border-white/10 hover:border-tertiary/50 transition-colors flex items-center gap-2 cursor-pointer"
             >
               <Download className="w-4 h-4 text-tertiary" />
-              <span>Download Resume</span>
-            </a>
+              <span>Resume PDF</span>
+            </button>
           </div>
         </motion.div>
 

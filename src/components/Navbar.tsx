@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { profileData } from "@/data/profile";
 import { Menu, X, Github, Linkedin, Download } from "lucide-react";
+import ResumeModal from "./ResumeModal";
 
 const NAV_ITEMS = [
   { name: "About", href: "#about" },
@@ -19,9 +20,16 @@ const NAV_ITEMS = [
 export default function Navbar() {
   const [activeSection, setActiveSection] = useState("about");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isResumeOpen, setIsResumeOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const isClickScrolling = useRef(false);
   const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    const handleOpenResume = () => setIsResumeOpen(true);
+    window.addEventListener("open-resume-modal", handleOpenResume);
+    return () => window.removeEventListener("open-resume-modal", handleOpenResume);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -158,16 +166,14 @@ export default function Navbar() {
             </a>
           </div>
 
-          <a
-            href={profileData.resumeUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            download="Ayushman_Patro_Resume.pdf"
-            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-primary/40 bg-surface-container/60 hover:bg-primary hover:text-on-primary text-primary font-mono text-[11px] shadow-[0_0_12px_rgba(208,188,255,0.2)] hover:shadow-[0_0_20px_rgba(208,188,255,0.4)] transition-all font-medium"
+          <button
+            onClick={() => setIsResumeOpen(true)}
+            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-primary/40 bg-surface-container/60 hover:bg-primary hover:text-on-primary text-primary font-mono text-[11px] shadow-[0_0_12px_rgba(208,188,255,0.2)] hover:shadow-[0_0_20px_rgba(208,188,255,0.4)] transition-all font-medium cursor-pointer"
+            title="View & Download Resume"
           >
             <Download className="w-3.5 h-3.5" />
             <span>Download Resume</span>
-          </a>
+          </button>
 
 
           {/* Mobile menu toggle button */}
@@ -212,16 +218,16 @@ export default function Navbar() {
           </div>
 
           <div className="flex flex-col gap-3 pt-2">
-            <a
-              href={profileData.resumeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              download="Ayushman_Patro_Resume.pdf"
-              className="w-full inline-flex items-center justify-center gap-2 py-2.5 rounded-lg border border-primary/40 bg-primary/10 text-primary font-mono text-xs font-semibold shadow-[0_0_12px_rgba(208,188,255,0.2)]"
+            <button
+              onClick={() => {
+                setIsResumeOpen(true);
+                setMobileMenuOpen(false);
+              }}
+              className="w-full inline-flex items-center justify-center gap-2 py-2.5 rounded-lg border border-primary/40 bg-primary/10 hover:bg-primary/20 text-primary font-mono text-xs font-semibold shadow-[0_0_12px_rgba(208,188,255,0.2)] transition-colors"
             >
               <Download className="w-4 h-4" />
-              <span>Download Full Resume</span>
-            </a>
+              <span>View &amp; Download Resume</span>
+            </button>
 
             <div className="flex items-center justify-center gap-4 text-xs font-mono text-on-surface-variant pt-2">
               <a
@@ -247,6 +253,12 @@ export default function Navbar() {
           </div>
         </div>
       )}
+
+      {/* Cybernetic Resume Viewer Modal */}
+      <ResumeModal
+        isOpen={isResumeOpen}
+        onClose={() => setIsResumeOpen(false)}
+      />
     </header>
   );
 }
