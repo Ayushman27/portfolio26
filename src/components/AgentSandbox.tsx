@@ -200,16 +200,16 @@ export default function AgentSandbox() {
 
   useEffect(() => {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollTo({
-        top: scrollContainerRef.current.scrollHeight,
-        behavior: "smooth",
-      });
+      scrollContainerRef.current.scrollTop = scrollContainerRef.current.scrollHeight;
     }
   }, [messages, isLoading]);
 
   const handleSendMessage = async (textToSend?: string) => {
     const query = (textToSend || inputVal).trim();
     if (!query || isLoading) return;
+
+    // Anchor the current window scroll position so the outer page never shifts
+    const savedScrollY = typeof window !== "undefined" ? window.scrollY : 0;
 
     setInputVal("");
 
@@ -222,6 +222,11 @@ export default function AgentSandbox() {
 
     setMessages((prev) => [...prev, userMessage]);
     setIsLoading(true);
+
+    // Keep window strictly locked in place
+    if (typeof window !== "undefined" && window.scrollY !== savedScrollY) {
+      window.scrollTo({ top: savedScrollY, behavior: "instant" });
+    }
 
     try {
       const response = await fetch("/api/chat", {
@@ -267,13 +272,19 @@ You can contact Ayushman directly at ayushmanpatro2003@gmail.com or inspect his 
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
-      setTimeout(() => inputRef.current?.focus({ preventScroll: true }), 50);
+      setTimeout(() => {
+        if (typeof window !== "undefined" && window.scrollY !== savedScrollY) {
+          window.scrollTo({ top: savedScrollY, behavior: "instant" });
+        }
+        inputRef.current?.focus({ preventScroll: true });
+      }, 50);
     }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
+      e.stopPropagation();
       handleSendMessage();
     }
   };
@@ -322,6 +333,7 @@ You can contact Ayushman directly at ayushmanpatro2003@gmail.com or inspect his 
           <div className="flex flex-wrap gap-2">
             {SUGGESTED_QUESTIONS.map((question, i) => (
               <button
+                type="button"
                 key={i}
                 onClick={() => handleSendMessage(question)}
                 disabled={isLoading}
@@ -353,6 +365,7 @@ You can contact Ayushman directly at ayushmanpatro2003@gmail.com or inspect his 
               </span>
 
               <button
+                type="button"
                 onClick={clearChat}
                 className="text-outline hover:text-white transition-colors p-1 rounded hover:bg-white/5 flex items-center gap-1 font-mono text-xs"
                 title="Clear conversation"
@@ -456,26 +469,33 @@ You can contact Ayushman directly at ayushmanpatro2003@gmail.com or inspect his 
 
           {/* Chat Input Bar */}
           <div className="p-3 sm:p-4 bg-[#07090e] border-t border-white/10">
-            <div className="flex items-center gap-2 bg-surface-container-lowest/80 rounded-xl border border-white/10 focus-within:border-secondary/50 px-3.5 py-2 transition-colors">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleSendMessage();
+              }}
+              className="flex items-center gap-2 bg-surface-container-lowest/80 rounded-xl border border-white/10 focus-within:border-secondary/50 px-3.5 py-2 transition-colors"
+            >
               <input
                 ref={inputRef}
                 type="text"
                 value={inputVal}
                 onChange={(e) => setInputVal(e.target.value)}
                 onKeyDown={handleKeyDown}
-                disabled={isLoading}
-                placeholder="Ask about Ayushman's experience, MILP project, skills, or education..."
+                readOnly={isLoading}
+                placeholder={isLoading ? "Formulating verified response from docs/..." : "Ask about Ayushman's experience, MILP project, skills, or education..."}
                 className="flex-1 bg-transparent text-white font-mono text-xs sm:text-sm placeholder:text-outline outline-none disabled:opacity-50"
               />
               <button
-                onClick={() => handleSendMessage()}
+                type="submit"
                 disabled={isLoading || !inputVal.trim()}
                 className="p-2 rounded-lg bg-primary hover:bg-primary/90 text-on-primary disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer shadow-[0_0_12px_rgba(208,188,255,0.3)] shrink-0"
                 title="Send query"
               >
                 <Send className="w-3.5 h-3.5" />
               </button>
-            </div>
+            </form>
 
             {/* Bottom Status Telemetry */}
             <div className="flex items-center justify-end text-[10px] font-mono text-outline pt-2 px-1">
