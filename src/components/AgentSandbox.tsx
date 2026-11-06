@@ -478,10 +478,7 @@ You can contact Ayushman directly at ayushmanpatro2003@gmail.com or inspect his 
             </div>
 
             {/* Bottom Status Telemetry */}
-            <div className="flex items-center justify-between text-[10px] font-mono text-outline pt-2 px-1">
-              <span className="hidden sm:inline">
-                Grounding Engine: <span className="text-secondary">BM25 Document RAG</span> + <span className="text-primary">Gemini LLM</span>
-              </span>
+            <div className="flex items-center justify-end text-[10px] font-mono text-outline pt-2 px-1">
               <span className="text-tertiary flex items-center gap-1">
                 <CheckCircle2 className="w-3 h-3" />
                 <span>100% Document Verified Responses</span>
