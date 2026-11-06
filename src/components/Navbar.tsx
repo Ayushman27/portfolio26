@@ -95,13 +95,14 @@ export default function Navbar() {
   };
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-[#111319]/90 backdrop-blur-xl border-b border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.5)]"
-          : "bg-surface/80 backdrop-blur-md border-b border-white/5"
-      }`}
-    >
+    <>
+      <header
+        className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 ${
+          scrolled
+            ? "bg-[#111319]/90 backdrop-blur-xl border-b border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.5)]"
+            : "bg-surface/80 backdrop-blur-md border-b border-white/5"
+        }`}
+      >
       <div className="h-20 max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-12 flex items-center justify-between gap-4">
         {/* Brand / Logo */}
         <div className="flex items-center gap-2">
@@ -253,13 +254,14 @@ export default function Navbar() {
           </div>
         </div>
       )}
-
-      {/* Cybernetic Resume Viewer Modal */}
-      <ResumeModal
-        isOpen={isResumeOpen}
-        onClose={() => setIsResumeOpen(false)}
-      />
     </header>
-  );
+
+    {/* Cybernetic Resume Viewer Modal */}
+    <ResumeModal
+      isOpen={isResumeOpen}
+      onClose={() => setIsResumeOpen(false)}
+    />
+  </>
+);
 }
 
