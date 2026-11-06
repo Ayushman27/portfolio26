@@ -195,11 +195,16 @@ export default function AgentSandbox() {
   const [messages, setMessages] = useState<Message[]>([INITIAL_MESSAGE]);
   const [inputVal, setInputVal] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({
+        top: scrollContainerRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+    }
   }, [messages, isLoading]);
 
   const handleSendMessage = async (textToSend?: string) => {
@@ -254,7 +259,7 @@ export default function AgentSandbox() {
         role: "assistant",
         content: `I encountered an issue processing your query through the RAG pipeline.
 
-You can contact Ayushman directly at **ayushmanpatro2003@gmail.com** or inspect his verified credentials in the **Resume PDF** above.`,
+You can contact Ayushman directly at ayushmanpatro2003@gmail.com or inspect his verified credentials in the Resume PDF above.`,
         sources: ["docs/profile.md"],
         poweredBy: "error-fallback",
         timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
@@ -262,7 +267,7 @@ You can contact Ayushman directly at **ayushmanpatro2003@gmail.com** or inspect 
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
-      setTimeout(() => inputRef.current?.focus(), 100);
+      setTimeout(() => inputRef.current?.focus({ preventScroll: true }), 50);
     }
   };
 
@@ -359,7 +364,10 @@ You can contact Ayushman directly at **ayushmanpatro2003@gmail.com** or inspect 
           </div>
 
           {/* Chat Message Scroll Feed */}
-          <div className="flex-1 overflow-y-auto p-4 sm:p-6 flex flex-col gap-4 font-mono text-xs sm:text-sm">
+          <div
+            ref={scrollContainerRef}
+            className="flex-1 overflow-y-auto p-4 sm:p-6 flex flex-col gap-4 font-mono text-xs sm:text-sm"
+          >
             {messages.map((m) => {
               const isAssistant = m.role === "assistant";
               return (
@@ -444,8 +452,6 @@ You can contact Ayushman directly at **ayushmanpatro2003@gmail.com** or inspect 
                 </div>
               </div>
             )}
-
-            <div ref={messagesEndRef} />
           </div>
 
           {/* Chat Input Bar */}
