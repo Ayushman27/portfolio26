@@ -339,9 +339,6 @@ You can contact Ayushman directly at **ayushmanpatro2003@gmail.com** or inspect 
                 <span className="w-3 h-3 rounded-full bg-secondary/80 inline-block shadow-[0_0_6px_rgba(93,230,255,0.5)]" />
                 <span className="w-3 h-3 rounded-full bg-tertiary/80 inline-block shadow-[0_0_6px_rgba(78,222,163,0.5)]" />
               </div>
-              <span className="ml-2 font-mono text-xs text-on-surface-variant font-medium hidden sm:inline">
-                gemini_recruiter_agent.ts
-              </span>
             </div>
 
             <div className="flex items-center gap-2 sm:gap-4">
