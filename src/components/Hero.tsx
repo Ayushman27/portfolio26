@@ -136,7 +136,7 @@ export default function Hero() {
           </div>
 
           {/* Telemetry Stats Ticker */}
-          <div className="grid grid-cols-3 gap-4 pt-6 border-t border-white/10 mt-2">
+          <div className="grid grid-cols-2 gap-6 sm:gap-8 max-w-md pt-6 border-t border-white/10 mt-2">
             {profileData.stats.map((stat, idx) => (
               <div key={idx}>
                 <div

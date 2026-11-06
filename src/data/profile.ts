@@ -50,14 +50,8 @@ export const profileData: ProfileData = {
     {
       value: "09",
       suffix: "+",
-      label: "Months Industry R&D",
+      label: "Months Industry Experience",
       colorVariant: "primary",
-    },
-    {
-      value: "18",
-      suffix: "ms",
-      label: "Target RAG Latency",
-      colorVariant: "secondary",
     },
     {
       value: "100",
