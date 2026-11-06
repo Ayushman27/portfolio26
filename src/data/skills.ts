@@ -27,6 +27,7 @@ export const skillCategories: SkillCategory[] = [
       { name: "TypeScript", tier: "core" },
       { name: "SQL", tier: "core" },
       { name: "C", tier: "working" },
+      { name: "Java", tier: "working" },
     ],
   },
   {
