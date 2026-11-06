@@ -15,13 +15,13 @@ interface Message {
 const INITIAL_MESSAGE: Message = {
   id: "welcome-0",
   role: "assistant",
-  content: `Hi! I am **Ayushman's Autonomous AI Agent**, answering directly on his behalf. I'm strictly grounded on my official documentation, verified resume, and project architectures in \`docs/\`.
+  content: `Hi! I am Ayushman's Autonomous AI Agent, answering directly on his behalf. I am strictly grounded on verified documentation, official resume details, and engineering project architectures in docs/.
 
 Ask me anything about:
-- **My Industry Experience:** 6-Month Gen AI internship at Hutech Solutions & 3-Month Data Science internship at Oasis Infobyte.
-- **My Flagship Projects:** AI-Powered Inventory Optimization (MILP + LightGBM), Patient Stratification (XGBoost + SLMs), and Agentic Travel Automation (LangGraph).
-- **My Technical Arsenal:** Machine Learning, Python, C++, TypeScript, LangGraph, RAG, and FastAPI.
-- **My Academic Background:** B.Tech in CSE at IIIT Bhubaneswar (Class of 2026).
+- My Industry Experience: 6-Month Gen AI internship at Hutech Solutions and 3-Month Data Science internship at Oasis Infobyte.
+- My Flagship Projects: AI-Powered Inventory Optimization (MILP + LightGBM), Patient Stratification (XGBoost + SLMs), and Agentic Travel Automation (LangGraph).
+- My Technical Arsenal: Machine Learning, Python, C++, TypeScript, LangGraph, RAG, and FastAPI.
+- My Academic Background: B.Tech in CSE at IIIT Bhubaneswar (Class of 2026).
 
 What would you like to know about my engineering background or availability?`,
   sources: ["docs/profile.md", "docs/experience.md", "docs/projects.md"],
@@ -37,9 +37,21 @@ const SUGGESTED_QUESTIONS = [
   "How did he build the real-time AI Voice Agent?",
 ];
 
+function cleanRawText(str: string): string {
+  if (!str) return "";
+  return str
+    .replace(/^###\s+/gm, "")
+    .replace(/^##\s+/gm, "")
+    .replace(/^#\s+/gm, "")
+    .replace(/\*\*([^*]+)\*\*/g, "$1")
+    .replace(/(?<!^[\s]*)\*([^*]+)\*/g, "$1")
+    .replace(/\*\*/g, "");
+}
+
 function formatInline(text: string): React.ReactNode[] {
   const parts: React.ReactNode[] = [];
-  const regex = /(\*\*[^*]+\*\*|`[^`]+`|\[[^\]]+\]\([^)]+\))/g;
+  // Match code spans, links, and emails
+  const regex = /(`[^`]+`|\[[^\]]+\]\([^)]+\)|https?:\/\/[^\s)]+|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g;
   let lastIndex = 0;
   let match;
 
@@ -48,13 +60,7 @@ function formatInline(text: string): React.ReactNode[] {
       parts.push(text.slice(lastIndex, match.index));
     }
     const token = match[0];
-    if (token.startsWith("**") && token.endsWith("**")) {
-      parts.push(
-        <strong key={match.index} className="font-semibold text-white">
-          {token.slice(2, -2)}
-        </strong>
-      );
-    } else if (token.startsWith("`") && token.endsWith("`")) {
+    if (token.startsWith("`") && token.endsWith("`")) {
       parts.push(
         <code
           key={match.index}
@@ -72,12 +78,34 @@ function formatInline(text: string): React.ReactNode[] {
             href={linkMatch[2]}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-secondary hover:text-primary underline underline-offset-2 transition-colors"
+            className="text-secondary hover:text-primary underline underline-offset-2 transition-colors font-medium"
           >
             {linkMatch[1]}
           </a>
         );
       }
+    } else if (token.includes("@") && !token.startsWith("http")) {
+      parts.push(
+        <a
+          key={match.index}
+          href={`mailto:${token}`}
+          className="text-secondary hover:text-primary underline underline-offset-2 transition-colors font-medium"
+        >
+          {token}
+        </a>
+      );
+    } else if (token.startsWith("http")) {
+      parts.push(
+        <a
+          key={match.index}
+          href={token}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-secondary hover:text-primary underline underline-offset-2 transition-colors font-medium break-all"
+        >
+          {token}
+        </a>
+      );
     }
     lastIndex = match.index + token.length;
   }
@@ -87,46 +115,77 @@ function formatInline(text: string): React.ReactNode[] {
   return parts;
 }
 
+function renderFormattedLine(content: string) {
+  // If line contains a title/label prefix like "AI-Powered E-Commerce CMS:" or "Stack:"
+  const colonIndex = content.indexOf(":");
+  if (colonIndex > 0 && colonIndex < 45 && !content.slice(0, colonIndex).includes("http")) {
+    const label = content.slice(0, colonIndex + 1);
+    const rest = content.slice(colonIndex + 1);
+    return (
+      <span>
+        <span className="font-semibold text-white mr-1.5">{label}</span>
+        <span className="text-on-surface-variant">{formatInline(rest)}</span>
+      </span>
+    );
+  }
+  return <span>{formatInline(content)}</span>;
+}
+
 function MarkdownRenderer({ content }: { content: string }) {
-  const lines = content.split("\n");
+  const sanitized = cleanRawText(content);
+  const lines = sanitized.split("\n");
+
   return (
-    <div className="flex flex-col gap-1.5 font-sans text-xs sm:text-sm leading-relaxed text-on-surface">
-      {lines.map((line, idx) => {
+    <div className="flex flex-col gap-2 font-sans text-xs sm:text-sm leading-relaxed text-on-surface">
+      {lines.map((rawLine, idx) => {
+        const line = rawLine.trimEnd();
         if (!line.trim()) {
           return <div key={idx} className="h-1" />;
         }
-        if (line.startsWith("### ")) {
-          return (
-            <h4 key={idx} className="font-bold text-white text-sm sm:text-base font-display mt-2 mb-0.5">
-              {formatInline(line.slice(4))}
-            </h4>
-          );
-        }
-        if (line.startsWith("## ")) {
-          return (
-            <h3 key={idx} className="font-bold text-white text-base font-display mt-2 mb-1">
-              {formatInline(line.slice(3))}
-            </h3>
-          );
-        }
-        if (line.startsWith("- ") || line.startsWith("* ")) {
-          return (
-            <div key={idx} className="flex items-start gap-2 ml-1">
-              <span className="text-secondary mt-1.5 text-[7px] shrink-0">●</span>
-              <span className="flex-1 leading-relaxed">{formatInline(line.slice(2))}</span>
-            </div>
-          );
-        }
+
+        // Check for numbered items (e.g. "1. Role at Company:")
         const numMatch = line.match(/^(\d+)\.\s+(.*)$/);
         if (numMatch) {
+          const num = numMatch[1];
+          const text = numMatch[2];
           return (
-            <div key={idx} className="flex items-start gap-2 ml-1">
-              <span className="font-mono text-secondary text-xs font-semibold shrink-0">{numMatch[1]}.</span>
-              <span className="flex-1 leading-relaxed">{formatInline(numMatch[2])}</span>
+            <div key={idx} className="flex items-start gap-2.5 mt-2.5 mb-1">
+              <span className="flex items-center justify-center w-5 h-5 rounded-md bg-secondary/15 border border-secondary/30 text-secondary font-mono text-[11px] font-bold shrink-0 mt-0.5">
+                {num}
+              </span>
+              <div className="flex-1 font-semibold text-white leading-relaxed">
+                {formatInline(text)}
+              </div>
             </div>
           );
         }
-        return <p key={idx} className="leading-relaxed">{formatInline(line)}</p>;
+
+        // Check for bullet items (e.g. "- item" or "  - item")
+        const bulletMatch = line.match(/^(\s*)[-•*]\s+(.*)$/);
+        if (bulletMatch) {
+          const isIndented = bulletMatch[1].length >= 2;
+          const bulletText = bulletMatch[2];
+          return (
+            <div
+              key={idx}
+              className={`flex items-start gap-2.5 ${
+                isIndented ? "ml-5 sm:ml-7 my-1" : "ml-1.5 my-1"
+              }`}
+            >
+              <span className="text-secondary mt-1.5 text-[8px] shrink-0">●</span>
+              <div className="flex-1 leading-relaxed">
+                {renderFormattedLine(bulletText)}
+              </div>
+            </div>
+          );
+        }
+
+        // Standard paragraph
+        return (
+          <p key={idx} className="leading-relaxed text-on-surface-variant">
+            {renderFormattedLine(line)}
+          </p>
+        );
       })}
     </div>
   );
