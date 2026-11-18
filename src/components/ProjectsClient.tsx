@@ -389,6 +389,18 @@ export default function ProjectsClient() {
 
                       {/* Action Buttons */}
                       <div className="flex flex-wrap items-center gap-3 pt-2">
+                        {project.demoUrl && project.demoUrl.startsWith("http") && (
+                          <a
+                            href={project.demoUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-4 py-2 rounded-lg font-mono text-xs font-semibold bg-emerald-500 hover:bg-emerald-400 text-black shadow-[0_0_16px_rgba(16,185,129,0.4)] hover:shadow-[0_0_24px_rgba(16,185,129,0.6)] transition-all flex items-center gap-1.5 cursor-pointer"
+                          >
+                            <ExternalLink className="w-3.5 h-3.5" />
+                            <span>Live Application</span>
+                          </a>
+                        )}
+
                         <a
                           href={project.githubUrl}
                           target="_blank"
@@ -444,7 +456,21 @@ export default function ProjectsClient() {
                             <span>$ docker run -p 8000:8000 ayushman/{project.id}:latest</span>
                             <span className="text-outline text-[10px]">Docker Ready</span>
                           </div>
-                          <div className="flex items-center gap-3 pt-1 border-t border-white/5">
+                          <div className="flex items-center gap-3 pt-1 border-t border-white/5 flex-wrap">
+                            {project.demoUrl && project.demoUrl.startsWith("http") && (
+                              <>
+                                <a
+                                  href={project.demoUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-tertiary hover:underline flex items-center gap-1 font-semibold"
+                                >
+                                  <span>Open Live Web App</span>
+                                  <ExternalLink className="w-3 h-3" />
+                                </a>
+                                <span>•</span>
+                              </>
+                            )}
                             <a
                               href={project.githubUrl}
                               target="_blank"

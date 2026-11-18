@@ -280,6 +280,18 @@ export default function Projects() {
 
                   {/* Action Buttons */}
                   <div className="flex flex-wrap items-center gap-3 pt-2">
+                    {project.demoUrl && project.demoUrl.startsWith("http") && (
+                      <a
+                        href={project.demoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-4 py-2 rounded-lg font-mono text-xs font-semibold bg-emerald-500 hover:bg-emerald-400 text-black shadow-[0_0_16px_rgba(16,185,129,0.4)] hover:shadow-[0_0_24px_rgba(16,185,129,0.6)] transition-all flex items-center gap-1.5 cursor-pointer"
+                      >
+                        <ExternalLink className="w-3.5 h-3.5" />
+                        <span>Live Application</span>
+                      </a>
+                    )}
+
                     <a
                       href={project.githubUrl}
                       target="_blank"

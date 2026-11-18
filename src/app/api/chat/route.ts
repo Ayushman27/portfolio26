@@ -203,6 +203,7 @@ My portfolio focuses on mathematical optimization, healthcare clinical AI, and m
 
 2. Intelligent Patient Stratification & Drug Recommendation System (August 2026):
    - Stack: Python, XGBoost, Random Forest, Small Language Models (SLMs), Reinforcement Learning, SHAP.
+   - Live Application: https://doctor-g-mauve.vercel.app/
    - Architecture: Formulated a dual-tier clinical system: tier-1 cohort risk stratification (96.2% ROC-AUC) and tier-2 constrained RL paired with SLMs for medically explainable dosage recommendations with zero safety violations.
 
 3. Agentic Corporate Travel Automation Platform (July 2026):

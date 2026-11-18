@@ -102,7 +102,7 @@ export const featuredProjects: ProjectItem[] = [
       },
     ],
     githubUrl: "https://github.com/Ayushman27",
-    demoUrl: "#contact",
+    demoUrl: "https://doctor-g-mauve.vercel.app/",
     type: "patient",
   },
   {

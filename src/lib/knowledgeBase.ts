@@ -117,6 +117,7 @@ Engineering Philosophy:
     content: `Project 02: Intelligent Patient Stratification & Drug Recommendation System (August 2026)
 - Domain: Healthcare Clinical AI & Explainable SLM
 - Technologies: Python, XGBoost, Random Forest, Small Language Models (SLMs), Reinforcement Learning, SHAP
+- Live Application: https://doctor-g-mauve.vercel.app/
 - Problem Solved: Clinical systems struggle with black-box predictions lacking medical explainability.
 - Architecture:
   * Tier 1: Risk Stratification using tuned XGBoost and Random Forest ensembles on Electronic Health Records (EHR).

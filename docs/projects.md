@@ -36,6 +36,7 @@ Ayushman designed a dual-phase pipeline:
 ### 🏥 02. Intelligent Patient Stratification & Drug Recommendation System
 - **Domain:** Healthcare Clinical AI & Explainable SLM
 - **Date:** August 2026
+- **Live Deployment:** [https://doctor-g-mauve.vercel.app/](https://doctor-g-mauve.vercel.app/)
 - **Repository:** [https://github.com/Ayushman27](https://github.com/Ayushman27)
 - **Tech Stack:** Python, XGBoost, Random Forest, Small Language Models (SLMs), Reinforcement Learning, SHAP
 

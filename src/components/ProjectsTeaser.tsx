@@ -24,6 +24,7 @@ export default function ProjectsTeaser() {
       subtext: "FDA Regimen Bounded • SHAP + SLM",
       accent: "secondary",
       tags: ["XGBoost", "RL Policies", "SLMs"],
+      demoUrl: "https://doctor-g-mauve.vercel.app/",
     },
     {
       num: "03",
@@ -127,11 +128,31 @@ export default function ProjectsTeaser() {
                 </div>
 
                 <div className="pt-4 mt-4 border-t border-white/5 flex items-center justify-between font-mono text-xs">
+                  {item.demoUrl ? (
+                    <a
+                      href={item.demoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-emerald-400 hover:text-white transition-colors flex items-center gap-1.5 font-semibold"
+                    >
+                      <span>Live App</span>
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  ) : (
+                    <Link
+                      href="/projects"
+                      className="text-red-400 hover:text-white transition-colors flex items-center gap-1 group-hover:translate-x-0.5 transition-transform font-medium"
+                    >
+                      <span>View Architecture</span>
+                      <ArrowRight className="w-3 h-3" />
+                    </Link>
+                  )}
+
                   <Link
                     href="/projects"
-                    className="text-red-400 hover:text-white transition-colors flex items-center gap-1 group-hover:translate-x-0.5 transition-transform font-medium"
+                    className="text-on-surface-variant hover:text-white transition-colors flex items-center gap-1 text-[11px]"
                   >
-                    <span>View Architecture &amp; Telemetry</span>
+                    <span>Full Spec</span>
                     <ArrowRight className="w-3 h-3" />
                   </Link>
                 </div>
