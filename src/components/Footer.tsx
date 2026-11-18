@@ -1,11 +1,31 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { profileData } from "@/data/profile";
 import { ArrowUp } from "lucide-react";
 
 export default function Footer() {
-  const scrollTo = (id: string) => {
+  const pathname = usePathname();
+  const router = useRouter();
+  const isProjectsPage = pathname === "/projects";
+
+  const handleNav = (id: string) => {
+    if (id === "projects") {
+      if (isProjectsPage) {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        router.push("/projects");
+      }
+      return;
+    }
+
+    if (isProjectsPage) {
+      router.push(`/#${id}`);
+      return;
+    }
+
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
@@ -31,26 +51,30 @@ export default function Footer() {
 
         <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 font-mono text-xs">
           <button
-            onClick={() => scrollTo("projects")}
-            className="text-on-surface-variant hover:text-primary transition-colors"
+            type="button"
+            onClick={() => handleNav("projects")}
+            className="text-on-surface-variant hover:text-primary transition-colors cursor-pointer"
           >
             Projects
           </button>
           <button
-            onClick={() => scrollTo("sandbox")}
-            className="text-on-surface-variant hover:text-secondary transition-colors"
+            type="button"
+            onClick={() => handleNav("sandbox")}
+            className="text-on-surface-variant hover:text-secondary transition-colors cursor-pointer"
           >
             Sandbox
           </button>
           <button
-            onClick={() => scrollTo("tech-stack")}
-            className="text-on-surface-variant hover:text-primary transition-colors"
+            type="button"
+            onClick={() => handleNav("tech-stack")}
+            className="text-on-surface-variant hover:text-primary transition-colors cursor-pointer"
           >
             Tech Stack
           </button>
           <button
-            onClick={() => scrollTo("workflow")}
-            className="text-on-surface-variant hover:text-primary transition-colors"
+            type="button"
+            onClick={() => handleNav("workflow")}
+            className="text-on-surface-variant hover:text-primary transition-colors cursor-pointer"
           >
             Workflow
           </button>
@@ -77,8 +101,9 @@ export default function Footer() {
             Resume PDF
           </button>
           <button
-            onClick={() => scrollTo("contact")}
-            className="text-on-surface-variant hover:text-primary transition-colors"
+            type="button"
+            onClick={() => handleNav("contact")}
+            className="text-on-surface-variant hover:text-primary transition-colors cursor-pointer"
           >
             Contact
           </button>

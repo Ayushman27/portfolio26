@@ -4,9 +4,8 @@ import Hero from "@/components/Hero";
 import AgentSandbox from "@/components/AgentSandbox";
 import About from "@/components/About";
 import Experience from "@/components/Experience";
-import Projects from "@/components/Projects";
+import ProjectsTeaser from "@/components/ProjectsTeaser";
 import TechStack from "@/components/TechStack";
-import UpcomingProjects from "@/components/UpcomingProjects";
 import AIWorkflow from "@/components/AIWorkflow";
 import Education from "@/components/Education";
 import SoftSkills from "@/components/SoftSkills";
@@ -43,16 +42,13 @@ export default function Home() {
           {/* SECTION 2: EXPERIENCE / TRACK RECORD */}
           <Experience />
 
-          {/* SECTION 3: FEATURED PROJECTS / APPLIED ENGINEERING */}
-          <Projects />
+          {/* SECTION 3: FEATURED PROJECTS / SPOTLIGHT (Compact gateway to /projects) */}
+          <ProjectsTeaser />
 
           {/* SECTION 4: TECH STACK / CAPABILITIES */}
           <TechStack />
 
-          {/* SECTION 5: UPCOMING PROJECTS / EXPERIMENTAL R&D */}
-          <UpcomingProjects />
-
-          {/* SECTION 6: AI WORKFLOW / METHODOLOGY */}
+          {/* SECTION 5: AI WORKFLOW / METHODOLOGY */}
           <AIWorkflow />
 
           {/* SECTION 7: EDUCATION & CERTIFICATIONS / FOUNDATION */}

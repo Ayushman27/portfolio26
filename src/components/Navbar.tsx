@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { profileData } from "@/data/profile";
 import { Menu, X, Github, Linkedin, Download } from "lucide-react";
 import ResumeModal from "./ResumeModal";
@@ -9,7 +11,7 @@ const NAV_ITEMS = [
   { name: "About", href: "#about" },
   { name: "Sandbox", href: "#sandbox" },
   { name: "Experience", href: "#experience" },
-  { name: "Projects", href: "#projects" },
+  { name: "Projects", href: "/projects" },
   { name: "Tech Stack", href: "#tech-stack" },
   { name: "Workflow", href: "#workflow" },
   { name: "Education", href: "#education" },
@@ -18,12 +20,22 @@ const NAV_ITEMS = [
 ];
 
 export default function Navbar() {
-  const [activeSection, setActiveSection] = useState("about");
+  const pathname = usePathname();
+  const router = useRouter();
+  const isProjectsPage = pathname === "/projects";
+
+  const [activeSection, setActiveSection] = useState(isProjectsPage ? "projects" : "about");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isResumeOpen, setIsResumeOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const isClickScrolling = useRef(false);
   const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    if (isProjectsPage) {
+      setActiveSection("projects");
+    }
+  }, [isProjectsPage]);
 
   useEffect(() => {
     const handleOpenResume = () => setIsResumeOpen(true);
@@ -32,12 +44,23 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
+    if (isProjectsPage) {
+      const handleProjectsScroll = () => {
+        setScrolled(window.scrollY > 20);
+      };
+      window.addEventListener("scroll", handleProjectsScroll, { passive: true });
+      handleProjectsScroll();
+      return () => window.removeEventListener("scroll", handleProjectsScroll);
+    }
+
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
 
       if (isClickScrolling.current) return;
 
-      const sections = NAV_ITEMS.map((item) => item.href.substring(1));
+      const sections = NAV_ITEMS.filter((item) => item.href.startsWith("#")).map((item) =>
+        item.href.substring(1)
+      );
       
       // Bottom of page check -> activate contact
       if (
@@ -66,18 +89,34 @@ export default function Navbar() {
       window.removeEventListener("scroll", handleScroll);
       if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
     };
-  }, []);
+  }, [isProjectsPage]);
 
   const handleNavClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
     href: string
   ) => {
+    setMobileMenuOpen(false);
+
+    if (href === "/projects" || href === "#projects") {
+      e.preventDefault();
+      setActiveSection("projects");
+      if (isProjectsPage) {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        router.push("/projects");
+      }
+      return;
+    }
+
+    if (isProjectsPage) {
+      e.preventDefault();
+      router.push(`/${href}`);
+      return;
+    }
+
     e.preventDefault();
     const sectionId = href.substring(1);
-    
-    // Instantly highlight the clicked nav item box
     setActiveSection(sectionId);
-    setMobileMenuOpen(false);
 
     isClickScrolling.current = true;
     if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
@@ -109,13 +148,22 @@ export default function Navbar() {
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(208,188,255,0.8)] animate-pulse" />
-              <a
-                href="#about"
-                onClick={(e) => handleNavClick(e, "#about")}
-                className="font-display text-lg sm:text-[19px] font-semibold text-on-surface tracking-tight hover:text-primary transition-colors uppercase"
-              >
-                {profileData.name}
-              </a>
+              {isProjectsPage ? (
+                <Link
+                  href="/"
+                  className="font-display text-lg sm:text-[19px] font-semibold text-on-surface tracking-tight hover:text-primary transition-colors uppercase"
+                >
+                  {profileData.name}
+                </Link>
+              ) : (
+                <a
+                  href="#about"
+                  onClick={(e) => handleNavClick(e, "#about")}
+                  className="font-display text-lg sm:text-[19px] font-semibold text-on-surface tracking-tight hover:text-primary transition-colors uppercase"
+                >
+                  {profileData.name}
+                </a>
+              )}
             </div>
             <span className="font-mono text-[10px] sm:text-[11px] text-on-surface-variant uppercase tracking-widest pl-4 hidden xs:inline-block">
               AI/ML ENGINEER | AGENTIC AI

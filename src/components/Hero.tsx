@@ -2,9 +2,10 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { profileData } from "@/data/profile";
 import { motion } from "framer-motion";
-import { ArrowDown, Send, GraduationCap, Terminal } from "lucide-react";
+import { ArrowDown, ArrowRight, Send, GraduationCap, Terminal } from "lucide-react";
 
 export default function Hero() {
   const roles = profileData.roles || [
@@ -98,17 +99,13 @@ export default function Hero() {
 
           {/* CTA Row */}
           <div className="flex flex-wrap items-center gap-3 sm:gap-4 pt-2">
-            <a
-              href="#projects"
-              onClick={(e) => {
-                e.preventDefault();
-                scrollTo("projects");
-              }}
+            <Link
+              href="/projects"
               className="px-6 py-3 rounded-lg bg-gradient-to-r from-primary-container to-inverse-primary text-white font-display text-sm sm:text-base font-semibold shadow-[0_0_24px_rgba(160,120,255,0.4)] hover:shadow-[0_0_36px_rgba(160,120,255,0.65)] hover:-translate-y-0.5 transition-all flex items-center gap-2"
             >
-              <span>Explore My Work</span>
-              <ArrowDown className="w-4 h-4" />
-            </a>
+              <span>Explore All Projects</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
 
             <a
               href="#contact"
