@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <!-- Dark Obsidian Background -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0d14" />
+      <stop offset="100%" stop-color="#141824" />
+    </linearGradient>
+
+    <!-- Cybernetic Violet to Cyan Gradient -->
+    <linearGradient id="cyberVioletCyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d0bcff" />
+      <stop offset="50%" stop-color="#a078ff" />
+      <stop offset="100%" stop-color="#5de6ff" />
+    </linearGradient>
+
+    <!-- Neon Cyan Border Gradient -->
+    <linearGradient id="borderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5de6ff" />
+      <stop offset="50%" stop-color="#a078ff" />
+      <stop offset="100%" stop-color="#4edea3" />
+    </linearGradient>
+
+    <!-- Core Quantum Glow -->
+    <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#5de6ff" stop-opacity="0.8" />
+      <stop offset="50%" stop-color="#a078ff" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#a078ff" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <!-- Squircle Base with Cybernetic Glowing Border -->
+  <rect x="2.5" y="2.5" width="59" height="59" rx="14" fill="url(#bgGrad)" stroke="url(#borderGrad)" stroke-width="2.5" />
+
+  <!-- Ambient Radiant Core Glow -->
+  <circle cx="32" cy="33" r="18" fill="url(#coreGlow)" />
+
+  <!-- Cybernetic Geometric "A" Neural Truss -->
+  <!-- Left Beam (Violet) -->
+  <line x1="32" y1="14" x2="16" y2="49" stroke="#d0bcff" stroke-width="4.5" stroke-linecap="round" />
+  <!-- Right Beam (Cyan) -->
+  <line x1="32" y1="14" x2="48" y2="49" stroke="#5de6ff" stroke-width="4.5" stroke-linecap="round" />
+  <!-- Crossbar Bridge (Emerald) -->
+  <line x1="21.5" y1="38" x2="42.5" y2="38" stroke="#4edea3" stroke-width="3.5" stroke-linecap="round" />
+
+  <!-- Glowing Quantum Core (Neural Center) -->
+  <circle cx="32" cy="30" r="3" fill="#4edea3" stroke="#ffffff" stroke-width="1.2" />
+
+  <!-- Vertex Quantum Nodes -->
+  <!-- Apex Node -->
+  <circle cx="32" cy="14" r="3.8" fill="#5de6ff" stroke="#ffffff" stroke-width="1.2" />
+  <!-- Left Anchor Node -->
+  <circle cx="16" cy="49" r="3.2" fill="#a078ff" stroke="#d0bcff" stroke-width="1" />
+  <!-- Right Anchor Node -->
+  <circle cx="48" cy="49" r="3.2" fill="#22d3ee" stroke="#ffffff" stroke-width="1" />
+</svg>
