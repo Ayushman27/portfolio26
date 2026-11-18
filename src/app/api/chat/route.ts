@@ -196,16 +196,16 @@ Direct contact: ayushmanpatro2003@gmail.com | LinkedIn: https://www.linkedin.com
 
 My portfolio focuses on mathematical optimization, healthcare clinical AI, and multi-agent systems:
 
-1. AI-Powered Inventory Forecasting & Optimization System (October 2024):
+1. AI-Powered Inventory Forecasting & Optimization System (October 2026):
    - Stack: Python, FastAPI, LightGBM, PuLP (MILP), Docker, React.
    - Why I Built It: Traditional Reorder Point (ROP) rules lead to high carrying costs and stockouts. I paired LightGBM demand forecasting with a Mixed-Integer Linear Programming (MILP) solver to compute optimal replenishment under capacity and budget constraints.
    - Results: Achieved 3.17% lower mean cost than ROP heuristics, with 132 automated CI/CD tests and <200ms solver latency.
 
-2. Intelligent Patient Stratification & Drug Recommendation System (August 2024):
+2. Intelligent Patient Stratification & Drug Recommendation System (August 2026):
    - Stack: Python, XGBoost, Random Forest, Small Language Models (SLMs), Reinforcement Learning, SHAP.
    - Architecture: Formulated a dual-tier clinical system: tier-1 cohort risk stratification (96.2% ROC-AUC) and tier-2 constrained RL paired with SLMs for medically explainable dosage recommendations with zero safety violations.
 
-3. Agentic Corporate Travel Automation Platform (July 2024):
+3. Agentic Corporate Travel Automation Platform (July 2026):
    - Stack: Node.js, React, LangGraph, Multi-Agent Systems, Travel APIs.
    - Architecture: Designed a multi-agent state graph on LangGraph with Planner, Policy Auditor, and Buyer agents with automated transaction rollback and Human-in-the-Loop gates (84% faster turnaround).`;
   }

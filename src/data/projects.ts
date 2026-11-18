@@ -34,7 +34,7 @@ export const featuredProjects: ProjectItem[] = [
   {
     id: "inventory-forecasting",
     projectNumber: "PROJECT 01",
-    date: "October 2024",
+    date: "October 2026",
     category: "Supply Chain AI",
     accentColor: "primary",
     title: "AI-Powered Inventory Forecasting & Optimization System",
@@ -68,7 +68,7 @@ export const featuredProjects: ProjectItem[] = [
   {
     id: "patient-stratification",
     projectNumber: "PROJECT 02",
-    date: "August 2024",
+    date: "August 2026",
     category: "Healthcare AI",
     accentColor: "secondary",
     title: "Intelligent Patient Stratification & Drug Recommendation System",
@@ -108,7 +108,7 @@ export const featuredProjects: ProjectItem[] = [
   {
     id: "agentic-travel-platform",
     projectNumber: "PROJECT 03",
-    date: "July 2024",
+    date: "July 2026",
     category: "Autonomous Multi-Agent",
     accentColor: "tertiary",
     title: "Agentic Corporate Travel Automation Platform",

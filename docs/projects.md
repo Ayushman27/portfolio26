@@ -8,7 +8,7 @@
 
 ### 📦 01. AI-Powered Inventory Forecasting & Optimization System
 - **Domain:** Supply Chain AI & Mathematical Optimization
-- **Date:** October 2024
+- **Date:** October 2026
 - **Repository:** [https://github.com/Ayushman27](https://github.com/Ayushman27)
 - **Tech Stack:** Python, FastAPI, LightGBM, PuLP (MILP Solver), Docker, React
 
@@ -35,7 +35,7 @@ Ayushman designed a dual-phase pipeline:
 
 ### 🏥 02. Intelligent Patient Stratification & Drug Recommendation System
 - **Domain:** Healthcare Clinical AI & Explainable SLM
-- **Date:** August 2024
+- **Date:** August 2026
 - **Repository:** [https://github.com/Ayushman27](https://github.com/Ayushman27)
 - **Tech Stack:** Python, XGBoost, Random Forest, Small Language Models (SLMs), Reinforcement Learning, SHAP
 
@@ -56,7 +56,7 @@ Formulated a two-tier clinical architecture:
 
 ### ✈️ 03. Agentic Corporate Travel Automation Platform
 - **Domain:** Autonomous Multi-Agent Systems & Workflow Orchestration
-- **Date:** July 2024
+- **Date:** July 2026
 - **Repository:** [https://github.com/Ayushman27](https://github.com/Ayushman27)
 - **Tech Stack:** Node.js, React, LangGraph, Multi-Agent Systems, Travel REST APIs
 

@@ -96,7 +96,7 @@ Engineering Philosophy:
     title: "Project — AI-Powered Inventory Forecasting & Optimization System",
     category: "project",
     keywords: ["inventory", "forecasting", "optimization", "milp", "pulp", "lightgbm", "supply chain", "rop", "reorder", "carrying cost", "docker", "test", "tests"],
-    content: `Project 01: AI-Powered Inventory Forecasting & Optimization System (October 2024)
+    content: `Project 01: AI-Powered Inventory Forecasting & Optimization System (October 2026)
 - Domain: Supply Chain AI & Mathematical Optimization
 - Technologies: Python, FastAPI, React, LightGBM, PuLP (MILP Solver), Docker
 - Problem Solved: Traditional supply chain heuristics like Reorder Point (ROP) cause stockouts and excessive carrying costs.
@@ -114,7 +114,7 @@ Engineering Philosophy:
     title: "Project — Intelligent Patient Stratification & Drug Recommendation System",
     category: "project",
     keywords: ["patient", "stratification", "healthcare", "clinical", "drug", "recommendation", "xgboost", "random forest", "slm", "reinforcement learning", "shap", "ehr"],
-    content: `Project 02: Intelligent Patient Stratification & Drug Recommendation System (August 2024)
+    content: `Project 02: Intelligent Patient Stratification & Drug Recommendation System (August 2026)
 - Domain: Healthcare Clinical AI & Explainable SLM
 - Technologies: Python, XGBoost, Random Forest, Small Language Models (SLMs), Reinforcement Learning, SHAP
 - Problem Solved: Clinical systems struggle with black-box predictions lacking medical explainability.
@@ -132,7 +132,7 @@ Engineering Philosophy:
     title: "Project — Agentic Corporate Travel Automation Platform",
     category: "project",
     keywords: ["travel", "agentic", "agents", "langgraph", "multi-agent", "corporate", "booking", "flight", "hotel", "rollback", "human in the loop"],
-    content: `Project 03: Agentic Corporate Travel Automation Platform (July 2024)
+    content: `Project 03: Agentic Corporate Travel Automation Platform (July 2026)
 - Domain: Autonomous Multi-Agent Systems & Workflow Orchestration
 - Technologies: Node.js, React, LangGraph, Multi-Agent Systems, Travel REST APIs
 - Problem Solved: Corporate travel booking involves complex policy compliance, vendor coordination, and handling booking cancellations.
