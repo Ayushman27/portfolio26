@@ -62,7 +62,7 @@ export const featuredProjects: ProjectItem[] = [
       },
     ],
     githubUrl: "https://github.com/Ayushman27",
-    demoUrl: "#contact",
+    demoUrl: "https://opti-chain-eight.vercel.app/",
     type: "inventory",
   },
   {

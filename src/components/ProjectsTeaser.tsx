@@ -133,7 +133,7 @@ export default function ProjectsTeaser() {
                       href={item.demoUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-emerald-400 hover:text-white transition-colors flex items-center gap-1.5 font-semibold"
+                      className="text-red-400 hover:text-white transition-colors flex items-center gap-1.5 font-bold"
                     >
                       <span>Live App</span>
                       <ExternalLink className="w-3 h-3" />
