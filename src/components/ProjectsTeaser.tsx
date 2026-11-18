@@ -35,6 +35,7 @@ export default function ProjectsTeaser() {
       subtext: "LangGraph State Graph • HITL Gates",
       accent: "tertiary",
       tags: ["LangGraph", "Multi-Agent", "Node.js"],
+      demoUrl: "https://corporate-travel-management-one.vercel.app/dashboard",
     },
   ];
 

@@ -209,6 +209,7 @@ My portfolio focuses on mathematical optimization, healthcare clinical AI, and m
 
 3. Agentic Corporate Travel Automation Platform (July 2026):
    - Stack: Node.js, React, LangGraph, Multi-Agent Systems, Travel APIs.
+   - Live Application: https://corporate-travel-management-one.vercel.app/dashboard
    - Architecture: Designed a multi-agent state graph on LangGraph with Planner, Policy Auditor, and Buyer agents with automated transaction rollback and Human-in-the-Loop gates (84% faster turnaround).`;
   }
 

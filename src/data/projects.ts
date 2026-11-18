@@ -142,7 +142,7 @@ export const featuredProjects: ProjectItem[] = [
       },
     ],
     githubUrl: "https://github.com/Ayushman27",
-    demoUrl: "#contact",
+    demoUrl: "https://corporate-travel-management-one.vercel.app/dashboard",
     type: "agentic",
   },
 ];

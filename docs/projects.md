@@ -59,6 +59,7 @@ Formulated a two-tier clinical architecture:
 ### ✈️ 03. Agentic Corporate Travel Automation Platform
 - **Domain:** Autonomous Multi-Agent Systems & Workflow Orchestration
 - **Date:** July 2026
+- **Live Deployment:** [https://corporate-travel-management-one.vercel.app/dashboard](https://corporate-travel-management-one.vercel.app/dashboard)
 - **Repository:** [https://github.com/Ayushman27](https://github.com/Ayushman27)
 - **Tech Stack:** Node.js, React, LangGraph, Multi-Agent Systems, Travel REST APIs
 

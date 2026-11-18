@@ -137,6 +137,7 @@ Engineering Philosophy:
     content: `Project 03: Agentic Corporate Travel Automation Platform (July 2026)
 - Domain: Autonomous Multi-Agent Systems & Workflow Orchestration
 - Technologies: Node.js, React, LangGraph, Multi-Agent Systems, Travel REST APIs
+- Live Application: https://corporate-travel-management-one.vercel.app/dashboard
 - Problem Solved: Corporate travel booking involves complex policy compliance, vendor coordination, and handling booking cancellations.
 - Architecture:
   * Multi-agent state graph built on LangGraph with 3 specialized agents: Planner Agent (searches availability), Policy Auditor Agent (validates corporate expense policies), and Buyer Agent (executes reservations with two-phase commit rollback).
