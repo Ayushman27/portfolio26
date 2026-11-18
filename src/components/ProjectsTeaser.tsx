@@ -15,6 +15,7 @@ export default function ProjectsTeaser() {
       subtext: "132 CI/CD Tests • <200ms Solver",
       accent: "primary",
       tags: ["LightGBM", "PuLP (MILP)", "FastAPI"],
+      demoUrl: "https://opti-chain-eight.vercel.app/",
     },
     {
       num: "02",

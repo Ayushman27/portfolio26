@@ -99,6 +99,7 @@ Engineering Philosophy:
     content: `Project 01: AI-Powered Inventory Forecasting & Optimization System (October 2026)
 - Domain: Supply Chain AI & Mathematical Optimization
 - Technologies: Python, FastAPI, React, LightGBM, PuLP (MILP Solver), Docker
+- Live Application: https://opti-chain-eight.vercel.app/
 - Problem Solved: Traditional supply chain heuristics like Reorder Point (ROP) cause stockouts and excessive carrying costs.
 - Architecture:
   * Demand Forecasting: LightGBM gradient boosted trees predict future demand across lead times and promotional calendars.

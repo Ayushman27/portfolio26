@@ -9,6 +9,7 @@
 ### 📦 01. AI-Powered Inventory Forecasting & Optimization System
 - **Domain:** Supply Chain AI & Mathematical Optimization
 - **Date:** October 2026
+- **Live Deployment:** [https://opti-chain-eight.vercel.app/](https://opti-chain-eight.vercel.app/)
 - **Repository:** [https://github.com/Ayushman27](https://github.com/Ayushman27)
 - **Tech Stack:** Python, FastAPI, LightGBM, PuLP (MILP Solver), Docker, React
 

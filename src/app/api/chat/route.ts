@@ -198,6 +198,7 @@ My portfolio focuses on mathematical optimization, healthcare clinical AI, and m
 
 1. AI-Powered Inventory Forecasting & Optimization System (October 2026):
    - Stack: Python, FastAPI, LightGBM, PuLP (MILP), Docker, React.
+   - Live Application: https://opti-chain-eight.vercel.app/
    - Why I Built It: Traditional Reorder Point (ROP) rules lead to high carrying costs and stockouts. I paired LightGBM demand forecasting with a Mixed-Integer Linear Programming (MILP) solver to compute optimal replenishment under capacity and budget constraints.
    - Results: Achieved 3.17% lower mean cost than ROP heuristics, with 132 automated CI/CD tests and <200ms solver latency.
 
