@@ -38,19 +38,25 @@ export default function ProjectsTeaser() {
 
   return (
     <section
-      className="w-full max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-12 py-16 border-t border-white/10 scroll-mt-20"
+      className="w-full max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-12 py-14 scroll-mt-20"
       id="projects"
     >
-      <div className="flex flex-col gap-8">
+      {/* High-Visibility Highlighted Red Box Chassis */}
+      <div className="relative rounded-3xl border-2 border-red-500/75 bg-gradient-to-b from-red-950/25 via-[#0b0d14]/95 to-red-950/20 p-6 sm:p-8 md:p-10 shadow-[0_0_50px_rgba(239,68,68,0.25)] backdrop-blur-xl flex flex-col gap-8 overflow-hidden">
+        {/* Volumetric Red Atmosphere Glows */}
+        <div className="absolute top-0 right-0 w-80 h-80 bg-red-600/12 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-80 h-80 bg-rose-600/10 rounded-full blur-[120px] pointer-events-none" />
+
         {/* Header Strip */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2">
-              <span className="font-mono text-xs text-tertiary tracking-widest uppercase font-semibold">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 relative z-10">
+          <div className="flex flex-col gap-2.5">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="font-mono text-xs text-red-400 tracking-widest uppercase font-bold flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
                 04 // APPLIED ENGINEERING SYSTEMS
               </span>
-              <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-secondary/10 border border-secondary/30 text-secondary font-mono text-[10px]">
-                <Sparkles className="w-3 h-3 text-secondary animate-pulse" />
+              <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-red-500/20 border border-red-500/50 text-red-300 font-mono text-[11px] font-semibold shadow-[0_0_12px_rgba(239,68,68,0.3)]">
+                <Sparkles className="w-3 h-3 text-red-400 animate-pulse" />
                 Dedicated Hub Available
               </span>
             </div>
@@ -66,19 +72,16 @@ export default function ProjectsTeaser() {
 
           <Link
             href="/projects"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-primary-container to-inverse-primary text-white font-mono text-xs font-semibold shadow-[0_0_20px_rgba(160,120,255,0.35)] hover:shadow-[0_0_30px_rgba(160,120,255,0.6)] hover:-translate-y-0.5 transition-all self-start md:self-auto shrink-0"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-red-600 via-rose-600 to-red-600 hover:from-red-500 hover:to-rose-500 text-white font-mono text-xs sm:text-sm font-bold shadow-[0_0_24px_rgba(239,68,68,0.5)] hover:shadow-[0_0_36px_rgba(239,68,68,0.75)] hover:-translate-y-0.5 transition-all self-start md:self-auto shrink-0 border border-red-400/40"
           >
             <span>Explore All Projects &amp; Telemetry</span>
-            <ArrowRight className="w-3.5 h-3.5" />
+            <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
 
         {/* 3 Compact Preview Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 relative z-10">
           {previewItems.map((item, idx) => {
-            const isViolet = item.accent === "primary";
-            const isCyan = item.accent === "secondary";
-
             return (
               <motion.div
                 key={idx}
@@ -86,25 +89,11 @@ export default function ProjectsTeaser() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: idx * 0.1 }}
-                className={`p-5 sm:p-6 rounded-2xl bg-surface-container/50 backdrop-blur-xl border border-white/10 flex flex-col justify-between transition-all group ${
-                  isViolet
-                    ? "hover:border-primary/50 hover:shadow-[0_0_24px_rgba(139,92,246,0.12)]"
-                    : isCyan
-                    ? "hover:border-secondary/50 hover:shadow-[0_0_24px_rgba(34,211,238,0.12)]"
-                    : "hover:border-tertiary/50 hover:shadow-[0_0_24px_rgba(78,222,163,0.12)]"
-                }`}
+                className="p-5 sm:p-6 rounded-2xl bg-surface-container/60 backdrop-blur-xl border border-white/10 hover:border-red-500/50 hover:shadow-[0_0_24px_rgba(239,68,68,0.18)] flex flex-col justify-between transition-all group"
               >
                 <div className="flex flex-col gap-3">
                   <div className="flex items-center justify-between">
-                    <span
-                      className={`font-mono text-xs font-semibold ${
-                        isViolet
-                          ? "text-primary"
-                          : isCyan
-                          ? "text-secondary"
-                          : "text-tertiary"
-                      }`}
-                    >
+                    <span className="font-mono text-xs font-semibold text-red-400">
                       {item.num} // {item.category}
                     </span>
                     <span className="text-[10px] font-mono text-outline uppercase px-2 py-0.5 rounded bg-white/5 border border-white/5">
@@ -112,20 +101,12 @@ export default function ProjectsTeaser() {
                     </span>
                   </div>
 
-                  <h3 className="font-display text-lg font-bold text-white group-hover:text-primary transition-colors leading-snug">
+                  <h3 className="font-display text-lg font-bold text-white group-hover:text-red-300 transition-colors leading-snug">
                     {item.title}
                   </h3>
 
                   <div className="flex items-baseline gap-2 pt-1">
-                    <span
-                      className={`font-mono text-base font-bold ${
-                        isViolet
-                          ? "text-primary"
-                          : isCyan
-                          ? "text-secondary"
-                          : "text-tertiary"
-                      }`}
-                    >
+                    <span className="font-mono text-base font-bold text-white">
                       {item.metric}
                     </span>
                     <span className="font-mono text-[11px] text-on-surface-variant truncate">
@@ -148,7 +129,7 @@ export default function ProjectsTeaser() {
                 <div className="pt-4 mt-4 border-t border-white/5 flex items-center justify-between font-mono text-xs">
                   <Link
                     href="/projects"
-                    className="text-secondary hover:text-white transition-colors flex items-center gap-1 group-hover:translate-x-0.5 transition-transform"
+                    className="text-red-400 hover:text-white transition-colors flex items-center gap-1 group-hover:translate-x-0.5 transition-transform font-medium"
                   >
                     <span>View Architecture &amp; Telemetry</span>
                     <ArrowRight className="w-3 h-3" />
@@ -160,9 +141,9 @@ export default function ProjectsTeaser() {
         </div>
 
         {/* Bottom Gateway Bar */}
-        <div className="p-4 sm:p-5 rounded-2xl bg-surface-container-lowest/80 border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs">
-          <div className="flex items-center gap-2.5 text-on-surface-variant text-center sm:text-left">
-            <Cpu className="w-4 h-4 text-tertiary shrink-0" />
+        <div className="p-4 sm:p-5 rounded-2xl bg-red-950/30 border border-red-500/40 shadow-[0_0_20px_rgba(239,68,68,0.12)] flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs relative z-10">
+          <div className="flex items-center gap-2.5 text-on-surface text-center sm:text-left">
+            <Cpu className="w-4 h-4 text-red-400 shrink-0" />
             <span>
               Includes 3 Production Architectures + 3 Active R&amp;D Research Labs with live SVG telemetry.
             </span>
@@ -170,7 +151,7 @@ export default function ProjectsTeaser() {
 
           <Link
             href="/projects"
-            className="text-primary hover:text-white underline underline-offset-4 flex items-center gap-1 shrink-0 font-semibold"
+            className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-500 text-white font-semibold transition-all flex items-center gap-1.5 shrink-0 shadow-[0_0_16px_rgba(239,68,68,0.4)]"
           >
             <span>Open Dedicated Projects Page</span>
             <ExternalLink className="w-3.5 h-3.5" />
