@@ -147,6 +147,26 @@ Engineering Philosophy:
   * 100% rollback recovery rate during simulated payment and API disruptions.`,
   },
   {
+    id: "project-twin",
+    sourceFile: "docs/projects.md",
+    title: "Project — Digital Twin Autonomous Agentic Workflow (Twin_agent)",
+    category: "project",
+    keywords: ["twin", "digital twin", "twin_agent", "simulation", "agentic", "telemetry", "real-time", "sensor", "iot", "langgraph"],
+    content: `Project 04: Digital Twin Autonomous Agentic Workflow System (September 2026)
+- Domain: Autonomous Systems & Digital Twin Telemetry
+- Technologies: Python, LangGraph, FastAPI, Event-Driven Architecture, Docker
+- GitHub Repository: https://github.com/Ayushman27/Twin_agent
+- Live Deployment: Hardware-in-the-Loop & Virtual Simulation Engine (No public web URL; standalone simulation deployment).
+- Problem Solved: Real-time telemetry synchronization between physical sensors and predictive virtual twin replicas to autonomously detect faults and trigger corrective operations.
+- Architecture:
+  * Ingestion & Telemetry Sync: Sub-120ms stream ingestion mapping real-world physical states to an active virtual twin replica.
+  * Dual-Agent Reasoning: Pairs an Observer/Anomaly Detection agent with an Action/Control Policy agent built on LangGraph to simulate scenarios, forecast deviations, and dispatch automated corrective controls.
+- Verified Benchmarks:
+  * Real-time virtual shadow synchronization with <120ms telemetry latency.
+  * 99.4% precision on multi-variate anomaly detection across sensor streams.
+  * Zero-human intervention required for deterministic operational corrections.`,
+  },
+  {
     id: "skills-arsenal",
     sourceFile: "docs/skills.md",
     title: "Skills — Technical Capabilities & Engineering Arsenal",

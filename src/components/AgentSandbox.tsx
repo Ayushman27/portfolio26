@@ -19,7 +19,7 @@ const INITIAL_MESSAGE: Message = {
 
 Ask me anything about:
 - My Industry Experience: 6-Month Gen AI internship at Hutech Solutions and 3-Month Data Science internship at Oasis Infobyte.
-- My Flagship Projects: AI-Powered Inventory Optimization (MILP + LightGBM), Patient Stratification (XGBoost + SLMs), and Agentic Travel Automation (LangGraph).
+- My Flagship Projects: AI-Powered Inventory Optimization (MILP + LightGBM), Patient Stratification (XGBoost + SLMs), Agentic Travel Automation (LangGraph), and Digital Twin Workflow (Twin_agent).
 - My Technical Arsenal: Machine Learning, Python, C++, TypeScript, LangGraph, RAG, and FastAPI.
 - My Academic Background: B.Tech in CSE at IIIT Bhubaneswar (Class of 2026).
 

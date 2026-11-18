@@ -80,6 +80,29 @@ Engineered an autonomous multi-agent state graph using **LangGraph**:
 
 ---
 
+### 🤖 04. Digital Twin Autonomous Agentic Workflow System (Twin_agent)
+- **Domain:** Autonomous Systems & Digital Twin Orchestration
+- **Date:** September 2026
+- **Repository:** [https://github.com/Ayushman27/Twin_agent](https://github.com/Ayushman27/Twin_agent)
+- **Live Deployment:** None (Hardware-in-the-Loop & Virtual Simulation Engine)
+- **Tech Stack:** Python, LangGraph, FastAPI, Event-Driven Architecture, Docker
+
+#### Problem Statement
+Industrial and cyber-physical setups generate massive streams of multi-variate telemetry that overwhelm conventional rule-based threshold monitors, resulting in alert fatigue and delayed incident responses.
+
+#### Architectural Solution
+Ayushman engineered an autonomous digital twin framework:
+1. **Physical Stream Ingestion:** High-throughput event-driven consumer ingesting streaming sensor telemetry with sub-120ms latency.
+2. **Virtual Twin Shadow Replica:** Maintains a synchronized virtual state representation of the target physical entity.
+3. **Dual-Agent State Loop:** Built on **LangGraph**, pairing an Observer Agent (which executes real-time multi-variate anomaly detection with 99.4% precision) and an Actuator Policy Agent (which simulates counter-measures and dispatches deterministic corrective controls).
+
+#### Verified Metrics & Benchmarks
+- **Sync Latency:** **<120ms** telemetry reconciliation between physical sensor stream and virtual shadow.
+- **Anomaly Detection:** **99.4% F1 precision** on multi-variate deviation identification.
+- **Closed-Loop Autonomy:** **Zero human intervention** required for verified deterministic operational adjustments.
+
+---
+
 ## 🔬 Experimental R&D Initiatives
 
 ### 🧬 R&D 01: Self-Refining Multi-Agent Code Synthesis Engine

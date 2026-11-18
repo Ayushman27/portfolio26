@@ -17,7 +17,7 @@ export interface ProjectItem {
   metrics: ProjectMetric[];
   githubUrl: string;
   demoUrl?: string;
-  type: "inventory" | "patient" | "agentic";
+  type: "inventory" | "patient" | "agentic" | "twin";
 }
 
 export interface UpcomingProject {
@@ -144,6 +144,46 @@ export const featuredProjects: ProjectItem[] = [
     githubUrl: "https://github.com/Ayushman27",
     demoUrl: "https://corporate-travel-management-one.vercel.app/dashboard",
     type: "agentic",
+  },
+  {
+    id: "twin-agent",
+    projectNumber: "PROJECT 04",
+    date: "September 2026",
+    category: "Autonomous Systems & Digital Twins",
+    accentColor: "secondary",
+    title: "Digital Twin Autonomous Agentic Workflow System",
+    description:
+      "Engineered an event-driven digital twin agent framework syncing real-time physical telemetry into a predictive virtual shadow. Built with LangGraph dual-agent coordination to autonomously monitor system states, detect sensor anomalies, and execute closed-loop corrective interventions without human latency.",
+    technologies: [
+      "Python",
+      "LangGraph",
+      "FastAPI",
+      "Digital Twins",
+      "Docker",
+      "Event-Driven Architecture",
+    ],
+    metrics: [
+      {
+        label: "SYNC LATENCY",
+        value: "<120ms",
+        subtext: "Telemetry ingestion loop",
+        colorVariant: "secondary",
+      },
+      {
+        label: "ANOMALY DETECTION",
+        value: "99.4%",
+        subtext: "Multi-variate sensor F1",
+        colorVariant: "primary",
+      },
+      {
+        label: "AGENT TOPOLOGY",
+        value: "Dual-Agent",
+        subtext: "Observer & Policy Actuator",
+        colorVariant: "tertiary",
+      },
+    ],
+    githubUrl: "https://github.com/Ayushman27/Twin_agent",
+    type: "twin",
   },
 ];
 

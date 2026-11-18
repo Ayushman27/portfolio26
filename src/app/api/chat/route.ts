@@ -191,10 +191,10 @@ I have completed 9+ months of hands-on industry engineering experience focused o
 Direct contact: ayushmanpatro2003@gmail.com | LinkedIn: https://www.linkedin.com/in/ayushman-patro-a92203258/`;
   }
 
-  if (q.includes("project") || q.includes("inventory") || q.includes("milp") || q.includes("patient") || q.includes("travel")) {
+  if (q.includes("project") || q.includes("inventory") || q.includes("milp") || q.includes("patient") || q.includes("travel") || q.includes("twin")) {
     return `My Flagship Engineering Projects:
 
-My portfolio focuses on mathematical optimization, healthcare clinical AI, and multi-agent systems:
+My portfolio focuses on mathematical optimization, healthcare clinical AI, autonomous multi-agent systems, and digital twin workflows:
 
 1. AI-Powered Inventory Forecasting & Optimization System (October 2026):
    - Stack: Python, FastAPI, LightGBM, PuLP (MILP), Docker, React.
@@ -210,7 +210,12 @@ My portfolio focuses on mathematical optimization, healthcare clinical AI, and m
 3. Agentic Corporate Travel Automation Platform (July 2026):
    - Stack: Node.js, React, LangGraph, Multi-Agent Systems, Travel APIs.
    - Live Application: https://corporate-travel-management-one.vercel.app/dashboard
-   - Architecture: Designed a multi-agent state graph on LangGraph with Planner, Policy Auditor, and Buyer agents with automated transaction rollback and Human-in-the-Loop gates (84% faster turnaround).`;
+   - Architecture: Designed a multi-agent state graph on LangGraph with Planner, Policy Auditor, and Buyer agents with automated transaction rollback and Human-in-the-Loop gates (84% faster turnaround).
+
+4. Digital Twin Autonomous Agentic Workflow System (September 2026):
+   - GitHub Repository: https://github.com/Ayushman27/Twin_agent
+   - Stack: Python, LangGraph, FastAPI, Event-Driven Telemetry, Docker.
+   - Architecture: Engineered an event-driven digital twin framework syncing real-time sensor streams (<120ms latency) into a virtual shadow agent. LangGraph dual-agent loops provide 99.4% precision anomaly detection with automated corrective intervention loops.`;
   }
 
   if (q.includes("education") || q.includes("college") || q.includes("degree") || q.includes("iiit") || q.includes("graduation")) {

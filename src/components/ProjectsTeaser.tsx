@@ -168,7 +168,7 @@ export default function ProjectsTeaser() {
           <div className="flex items-center gap-2.5 text-on-surface text-center sm:text-left">
             <Cpu className="w-4 h-4 text-red-400 shrink-0" />
             <span>
-              Includes 3 Production Architectures + 3 Active R&amp;D Research Labs with live SVG telemetry.
+              Includes 4 Production Architectures + 3 Active R&amp;D Research Labs with live SVG telemetry.
             </span>
           </div>
 

@@ -155,6 +155,57 @@ export default function Projects() {
             </div>
           </div>
         );
+
+      case "twin":
+        return (
+          <div className="w-full lg:w-96 rounded-2xl bg-surface-container-lowest/80 border border-white/10 p-5 flex flex-col justify-between">
+            <div className="flex items-center justify-between border-b border-white/5 pb-2">
+              <span className="font-mono text-xs text-on-surface-variant">
+                DIGITAL_TWIN_TELEMETRY
+              </span>
+              <span className="text-secondary font-mono text-xs font-semibold flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse" />
+                SYNC: REAL-TIME
+              </span>
+            </div>
+
+            {/* Dual Twin Architecture Pipeline */}
+            <div className="py-3 flex flex-col gap-2 font-mono text-xs">
+              <div className="p-2.5 rounded-lg bg-surface-container-high border border-secondary/40 flex items-center justify-between">
+                <div>
+                  <span className="text-secondary font-semibold block">[01] Physical Telemetry Ingest</span>
+                  <span className="text-outline-variant text-[10px]">Sensor Bus • Stream Ingestion</span>
+                </div>
+                <span className="text-secondary text-[11px] font-bold">&lt;120ms</span>
+              </div>
+              <div className="flex justify-center text-primary py-0.5">
+                <span className="material-symbols-outlined text-[16px]">sync_alt</span>
+              </div>
+              <div className="p-2.5 rounded-lg bg-surface-container-high border border-primary/40 flex items-center justify-between">
+                <div>
+                  <span className="text-primary font-semibold block">[02] Virtual Twin Shadow Agent</span>
+                  <span className="text-outline-variant text-[10px]">LangGraph Anomaly Detection</span>
+                </div>
+                <span className="text-tertiary text-[11px] font-bold">99.4% F1</span>
+              </div>
+              <div className="flex justify-center text-tertiary py-0.5">
+                <span className="material-symbols-outlined text-[16px]">arrow_downward</span>
+              </div>
+              <div className="p-2.5 rounded-lg bg-surface-container-high border border-tertiary/40 flex items-center justify-between">
+                <div>
+                  <span className="text-tertiary font-semibold block">[03] Closed-Loop Actuator</span>
+                  <span className="text-outline-variant text-[10px]">Deterministic Policy Dispatch</span>
+                </div>
+                <span className="text-tertiary text-[10px] font-semibold">Autonomous</span>
+              </div>
+            </div>
+
+            <div className="font-mono text-xs text-outline-variant bg-surface-container-high/50 p-2.5 rounded-lg border border-white/5 flex items-center justify-between">
+              <span>Shadow State: Reconciled</span>
+              <span className="text-secondary text-[10px]">Fault: 0.00%</span>
+            </div>
+          </div>
+        );
     }
   };
 
